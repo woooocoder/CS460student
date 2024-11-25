@@ -1,6 +1,9 @@
-import * as THREE from 'https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.module.js';
-import { initPane } from './gui.js';
-
+import { initPane } from './gui.js'
+import { getHUD } from './hud.js'
+import * as THREE from 'https://cdn.skypack.dev/three@0.129.0/build/three.module.js'; 
+import { GLTFLoader } from 'https://cdn.skypack.dev/three@0.129.0/examples/jsm/loaders/GLTFLoader.js';
+console.log('THREE', THREE)
+console.log('GLTF', GLTFLoader)
 // Scene
 const scene = new THREE.Scene();
 // Camera
@@ -14,6 +17,20 @@ document.body.appendChild(renderer.domElement);
 const geometry = new THREE.BoxGeometry();
 const material = new THREE.MeshBasicMaterial({ color: 0x00ff00 });
 const cube = new THREE.Mesh(geometry, material);
+
+// load mesh
+const loader = new GLTFLoader()
+loader.load('./animations/test.glb',
+    function (gltf) {
+        gltf.scene.position.set(0,-0.15,3)
+        scene.add(gltf.scene)
+    }, undefined,
+    
+    function (error) {
+        console.log(error)
+    }
+)
+
 scene.add(cube);
 // Animation loop
 function animate() {
@@ -28,5 +45,6 @@ window.addEventListener('resize', () => {
     camera.updateProjectionMatrix();
     renderer.setSize(window.innerWidth, window.innerHeight);
 });
+getHUD()
 initPane()
-animate();
+animate()

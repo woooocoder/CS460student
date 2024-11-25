@@ -63,6 +63,7 @@ export function initPane() {
 
     tab.pages[1].addBlade({ view: 'separator' })
 
+    // Implement the change in camera view for zoom and axis!
     tab.pages[1].addBinding(VIEW_PARAMS, 'X', {
         view: 'camerawheel',
         unit: {
@@ -106,11 +107,13 @@ export function initPane() {
     tab.pages[1].addBlade({ view: 'separator' })
 
     const update = pane.addButton({
-        title: 'Update'
+        title: 'Update' 
     })
 
-    update.on('click', () => {
-        console.log('updating')
+    update.on('click', () => { 
+        // setCameraPosition || validate, run model, setAnimation 
+        // validate && fetch('GET', { PREDICTIVE_PARAMS })
+        console.log(PREDICTIVE_PARAMS)
     })
 
 }
