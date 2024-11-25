@@ -13,7 +13,7 @@ camera.position.z = 5;
 const renderer = new THREE.WebGLRenderer();
 renderer.setSize(window.innerWidth, window.innerHeight);
 document.body.appendChild(renderer.domElement);
-// Cube
+
 const geometry = new THREE.BoxGeometry();
 const material = new THREE.MeshBasicMaterial({ color: 0x00ff00 });
 const cube = new THREE.Mesh(geometry, material);
@@ -39,7 +39,14 @@ function animate() {
     cube.rotation.y += 0.01;
     renderer.render(scene, camera);
 }
-// Handle resize
+
+// const loader = new GLTFLoader().setPath('./public')
+// loader.load('test.gltf', (gltf) => {
+//     const mesh = gltf.scene
+//     mesh.position.set(0,15,-1)
+//     scene.add(mesh)
+// })
+
 window.addEventListener('resize', () => {
     camera.aspect = window.innerWidth / window.innerHeight;
     camera.updateProjectionMatrix();
