@@ -2,8 +2,10 @@ import { initPane } from './gui.js'
 import { getHUD } from './hud.js'
 import * as THREE from 'https://cdn.skypack.dev/three@0.129.0/build/three.module.js'; 
 import { GLTFLoader } from 'https://cdn.skypack.dev/three@0.129.0/examples/jsm/loaders/GLTFLoader.js';
-console.log('THREE', THREE)
-console.log('GLTF', GLTFLoader)
+
+console.log('THREE init: ', THREE)
+console.log('GLTF init: ', GLTFLoader)
+
 // Scene
 const scene = new THREE.Scene();
 // Camera
