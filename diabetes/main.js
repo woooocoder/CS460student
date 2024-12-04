@@ -28,7 +28,7 @@ async function loadCSV(path) {
     const loader = new FontLoader()
     loader.load('imports/fonts/helvetiker_bold.typeface.json', (font) => {
         data.forEach((sample, index) => {
-            const text = `Sample ${index + 1}: Glucose=${sample.Glucose}, BMI=${sample.BMI}`;
+            const text = `Sample ${index + 1}: Pregnancies=${sample.Pregnancies}, Glucose=${sample.Glucose}, BloodPressure=${sample.BloodPressure}, SkinThickness=${sample.SkinThickness}, BMI=${sample.BMI}, DiabetesPedigreeFunction=${sample.DiabetesPedigreeFunction}, Age=${sample.Age}, Outcome=${sample.Outcome}`;
             const textGeo = new TextGeometry(text, {
                 font: font,
                 size: 0.2,
@@ -57,6 +57,11 @@ window.addEventListener('resize', () => {
     camera.updateProjectionMatrix();
     renderer.setSize(window.innerWidth, window.innerHeight);
 });
+
+window.addEventListener('scroll', () => {
+    const scrollY = window.scrollY
+    camera.position.z = 5 + scrollY * .05
+})
 
 getHUD()
 initPane()
