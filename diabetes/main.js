@@ -1,7 +1,13 @@
+import * as THREE from 'three'
+import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader.js'
+import { TextGeometry } from 'three/examples/jsm/geometries/TextGeometry.js';
+import { FontLoader } from 'three/examples/jsm/loaders/FontLoader.js'
+
+import { readCSV } from './data.js';
 import { initPane } from './gui.js'
-import { getHUD } from './hud.js'
-import * as THREE from 'https://cdn.skypack.dev/three@0.129.0/build/three.module.js'; 
-import { GLTFLoader } from 'https://cdn.skypack.dev/three@0.129.0/examples/jsm/loaders/GLTFLoader.js';
+import { getHUD } from './nav.js'
+
+
 
 console.log('THREE init: ', THREE)
 console.log('GLTF init: ', GLTFLoader)
@@ -15,45 +21,43 @@ camera.position.z = 5;
 const renderer = new THREE.WebGLRenderer();
 renderer.setSize(window.innerWidth, window.innerHeight);
 document.body.appendChild(renderer.domElement);
+ 
 
-const geometry = new THREE.BoxGeometry();
-const material = new THREE.MeshBasicMaterial({ color: 0x00ff00 });
-const cube = new THREE.Mesh(geometry, material);
-
-// load mesh
-const loader = new GLTFLoader()
-loader.load('./animations/test.glb',
-    function (gltf) {
-        gltf.scene.position.set(0,-0.15,3)
-        scene.add(gltf.scene)
-    }, undefined,
-    
-    function (error) {
-        console.log(error)
-    }
-)
-
-scene.add(cube);
-// Animation loop
-function animate() {
-    requestAnimationFrame(animate);
-    cube.rotation.x += 0.01;
-    cube.rotation.y += 0.01;
-    renderer.render(scene, camera);
+async function loadCSV(path) {
+    const data = await readCSV(path).then(console.log('Imported', path))
+    const loader = new FontLoader()
+    loader.load('imports/fonts/helvetiker_bold.typeface.json', (font) => {
+        data.forEach((sample, index) => {
+            const text = `Sample ${index + 1}: Glucose=${sample.Glucose}, BMI=${sample.BMI}`;
+            const textGeo = new TextGeometry(text, {
+                font: font,
+                size: 0.2,
+                height: 0.05
+            });
+            
+            const textMaterial = new THREE.MeshBasicMaterial({ color: 0x00ff00 });
+            const textMesh = new THREE.Mesh(textGeo, textMaterial);
+            
+            // Position the text
+            textMesh.position.set(-2, 2 - index * 0.5, 0);
+            scene.add(textMesh);
+        })
+    })
 }
 
-// const loader = new GLTFLoader().setPath('./public')
-// loader.load('test.gltf', (gltf) => {
-//     const mesh = gltf.scene
-//     mesh.position.set(0,15,-1)
-//     scene.add(mesh)
-// })
+loadCSV('/diabetes.csv')
+
+function animate() {
+    requestAnimationFrame(animate); 
+    renderer.render(scene, camera);
+}
 
 window.addEventListener('resize', () => {
     camera.aspect = window.innerWidth / window.innerHeight;
     camera.updateProjectionMatrix();
     renderer.setSize(window.innerWidth, window.innerHeight);
 });
+
 getHUD()
 initPane()
 animate()

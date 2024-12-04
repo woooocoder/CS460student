@@ -1,4 +1,4 @@
-async function fetchCSV(path) {
+export async function fetchCSV(path) {
     const res = await fetch(path)
     const data = await res.text()
     return data
@@ -23,7 +23,7 @@ async function fetchCSV(path) {
  * @todo handle parsing of Outcome. It's currently stored in the format of
  *      'Outcome\r': '0\r' || '1\r'
  */
-async function readCSV(path) {
+export async function readCSV(path) {
     const csvData = await fetchCSV(path)
     const rows = csvData.split('\n') // 1 Sample
     
@@ -42,5 +42,3 @@ async function readCSV(path) {
     console.log(data)
     return data
 }
-
-readCSV('http://127.0.0.1:8081/diabetes.csv')

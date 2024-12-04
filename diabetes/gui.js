@@ -1,5 +1,5 @@
-import { Pane } from './imports/tweakpane-4.0.5.js';
-import * as CameraKitPlugin from './imports/tweakpane-plugin-camerakit-0.3.0.js'
+import { Pane } from './public/imports/tweakpane-4.0.5.js';
+import * as CameraKitPlugin from './public/imports/tweakpane-plugin-camerakit-0.3.0.js'
 
 export function initPane() {
     const PREDICTIVE_PARAMS = {
