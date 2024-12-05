@@ -7,7 +7,12 @@
     "serve": "vite preview"
   },
   "dependencies": {
-    "three": "^0.152.0"
+    "@tweakpane/plugin-camerakit": "^0.3.0",
+    "3d-force-graph": "^1.74.0",
+    "force-graph": "^1.47.0",
+    "scichart": "^3.5.706",
+    "three": "^0.152.0",
+    "tweakpane": "^4.0.5"
   },
   "devDependencies": {
     "vite": "^4.0.0"

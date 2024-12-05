@@ -8,7 +8,7 @@ export function getHUD() {
     hud.style.bottom = '0'
     hud.style.backgroundColor = 'black'
     hud.style.zIndex = '50'
-    hud.innerText = 'heeee'
+    hud.innerText = 'heeeem'
     hud.style.color = 'white'
     
     

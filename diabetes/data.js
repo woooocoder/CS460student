@@ -19,9 +19,7 @@ export async function fetchCSV(path) {
  *              Age: '21',
  *              Outcome: '0'
  *          }
- *      ] 
- * @todo handle parsing of Outcome. It's currently stored in the format of
- *      'Outcome\r': '0\r' || '1\r'
+ *      ]  
  */
 export async function readCSV(path) {
     const csvData = await fetchCSV(path)
@@ -31,14 +29,30 @@ export async function readCSV(path) {
     const headers = rows[0].split(',').slice(0, 9)
 
     const data = rows.slice(1).map(row => {
-        const values = row.split(',')
+        const values = row.split(',').map(val => val.trim().replace('/r', ''))
         const sample = headers.reduce((acc, header, index) => {
-            acc[header] = values[index]
+            acc[header] = values[index] || ''
             return acc
         }, {})
         return sample
     })
+ 
+    return data.filter(sample => Object.keys(sample).length === headers.length)
+}
 
-    console.log(data)
-    return data
+export function toObject(str) {
+    const rows = str.split('\n') // 1 Sample
+    
+    // Predictor row
+    const headers = rows[0].split(',').slice(0, 9).map(val => val.trim())
+    const data = rows.slice(1).map(row => {
+        const values = row.split(',').map(val => val.trim())
+        const sample = headers.reduce((acc, header, index) => {
+            acc[header] = values[index] || ''
+            return acc
+        }, {})
+        return sample
+    })
+ 
+    return data.filter(sample => Object.keys(sample).length === headers.length)
 }
