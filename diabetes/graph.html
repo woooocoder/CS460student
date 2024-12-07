@@ -26,7 +26,6 @@
       import { Pane } from "tweakpane";
       import { toObject } from "./data.js";
       import csv from "/diabetesImputed.csv?url&raw";
-
       const data = toObject(csv);
       const predictors = [
         "Insulin",
@@ -70,7 +69,7 @@
           SciChartSurface,
           MouseWheelZoomModifier3D,
           ResetCamera3DModifier,
-          TooltipModifier3D,
+          TooltipModifier3D, 
           SciChartJsNavyTheme
         } = window.SciChart;
 

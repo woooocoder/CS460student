@@ -12,7 +12,7 @@
     "3d-force-graph": "^1.74.0",
     "force-graph": "^1.47.0",
     "scichart": "^3.5.706",
-    "three": "^0.152.0",
+    "three": "^0.152.2",
     "tweakpane": "^4.0.5"
   },
   "devDependencies": {

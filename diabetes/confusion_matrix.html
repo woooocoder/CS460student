@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Interactive Cube with Confusion Matrix Values</title>
+    <style>
+      body {
+        margin: 0;
+        overflow: hidden;
+      }
+      canvas {
+        display: block;
+      }
+    </style>
+  </head>
+  <body>
+    <script type="module">
+      import * as THREE from 'three';
+      import { OrbitControls } from 'three/addons/controls/OrbitControls.js';
+      import { FontLoader } from 'three/examples/jsm/loaders/FontLoader.js';
+      import { TextGeometry } from 'three/examples/jsm/geometries/TextGeometry.js';
+
+      let scene, camera, renderer, controls;
+      let frontGroup, backGroup, cubes = [];
+
+      
+      const confusionMatrix = {
+        TP: 50, 
+        FP: 10, 
+        FN: 5,  
+        TN: 45  
+      };
+
+      init();
+
+      function init() {
+        // Scene setup
+        scene = new THREE.Scene();
+        camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
+        renderer = new THREE.WebGLRenderer();
+        renderer.setSize(window.innerWidth, window.innerHeight);
+        document.body.appendChild(renderer.domElement);
+
+        controls = new OrbitControls(camera, renderer.domElement);
+
+        frontGroup = new THREE.Group();
+        backGroup = new THREE.Group();
+        scene.add(frontGroup);
+        scene.add(backGroup);
+
+        createSmallCubes();
+ 
+        camera.position.z = 10;
+ 
+        window.addEventListener('resize', onWindowResize);
+
+        animate();
+      }
+
+      function createSmallCubes() {
+        const geometry = new THREE.BoxGeometry(2, 2, 2);
+
+        const blueShades = [
+          new THREE.MeshBasicMaterial({ color: 0x0000ff }),  
+          new THREE.MeshBasicMaterial({ color: 0x4682b4 }),  
+          new THREE.MeshBasicMaterial({ color: 0x1e90ff }),  
+          new THREE.MeshBasicMaterial({ color: 0x5f9ea0 })   
+        ];
+
+        // Positions for the cubes
+        const positions = [
+          [-1, 1, 0],   // Top-left
+          [1, 1, 0],    // Top-right
+          [-1, -1, 0],  // Bottom-left
+          [1, -1, 0],   // Bottom-right
+          [-1, 1, -2],  // Top-left, back
+          [1, 1, -2],   // Top-right, back
+          [-1, -1, -2], // Bottom-left, back
+          [1, -1, -2],  // Bottom-right, back
+        ];
+
+        positions.forEach((pos, index) => {
+          const colorIndex = index % blueShades.length;
+          const cube = new THREE.Mesh(geometry, blueShades[colorIndex]);
+          cube.position.set(pos[0], pos[1], pos[2]);
+
+          if (index < 4) {
+            frontGroup.add(cube);
+          } else {
+            backGroup.add(cube);
+          }
+          cubes.push(cube);
+
+          // Add confusion matrix values to all faces
+          const faceLabels = [
+            { face: "top", offsets: { x: 0, y: 1.1, z: 0 }, rotation: { x: 0, y: 0, z: 0 } },
+            { face: "bottom", offsets: { x: 0, y: -1.1, z: 0 }, rotation: { x: Math.PI, y: 0, z: 0 } },
+            { face: "front", offsets: { x: 0, y: 0, z: 1.1 }, rotation: { x: 0, y: 0, z: 0 } },
+            { face: "back", offsets: { x: 0, y: 0, z: -1.1 }, rotation: { x: 0, y: Math.PI, z: 0 } },
+            { face: "left", offsets: { x: -1.1, y: 0, z: 0 }, rotation: { x: 0, y: Math.PI / 2, z: 0 } },
+            { face: "right", offsets: { x: 1.1, y: 0, z: 0 }, rotation: { x: 0, y: -Math.PI / 2, z: 0 } },
+          ];
+
+          faceLabels.forEach((faceLabel) => {
+            addConfusionMatrixTextToFace(
+              cube,
+              ["TP", "FP", "FN", "TN"].map((key) => `${key}: ${confusionMatrix[key]}`), 
+              faceLabel.offsets,
+              faceLabel.rotation
+            );
+          });
+        });
+
+        backGroup.rotation.y = Math.PI; 
+      }
+
+      function addConfusionMatrixTextToFace(cube, texts, positionOffset, rotationOffset) {
+        const loader = new FontLoader();
+        loader.load('https://threejs.org/examples/fonts/helvetiker_regular.typeface.json', function (font) {
+          const positions = [
+            { x: -0.5, y: 0.5, z: 0 },  // Top-left
+            { x: 0.5, y: 0.5, z: 0 },   // Top-right
+            { x: -0.5, y: -0.5, z: 0 }, // Bottom-left
+            { x: 0.5, y: -0.5, z: 0 },  // Bottom-right
+          ];
+
+          texts.forEach((text, index) => {
+            const textGeometry = new TextGeometry(text, {
+              font: font,
+              size: 0.2,
+              height: 0.05,
+            });
+
+            const textMaterial = new THREE.MeshBasicMaterial({ color: 0xffff00 });  
+            const textMesh = new THREE.Mesh(textGeometry, textMaterial);
+
+            const offset = positions[index];
+            textMesh.position.set(
+              positionOffset.x + offset.x,
+              positionOffset.y + offset.y,
+              positionOffset.z + offset.z
+            );
+
+            textMesh.rotation.set(
+              rotationOffset.x || 0,
+              rotationOffset.y || 0,
+              rotationOffset.z || 0
+            );
+
+            cube.add(textMesh);
+          });
+        });
+      }
+
+      function onWindowResize() {
+        camera.aspect = window.innerWidth / window.innerHeight;
+        camera.updateProjectionMatrix();
+        renderer.setSize(window.innerWidth, window.innerHeight);
+      }
+
+      function animate() {
+        requestAnimationFrame(animate);
+        controls.update();
+        renderer.render(scene, camera);
+      }
+    </script>
+  </body>
+</html>
