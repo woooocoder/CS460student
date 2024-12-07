@@ -25,7 +25,7 @@
     <script type="module">
       import { Pane } from "tweakpane";
       import { toObject } from "./data.js";
-      import csv from "/diabetes.csv?url&raw";
+      import csv from "/diabetesImputed.csv?url&raw";
 
       const data = toObject(csv);
       const predictors = [
@@ -36,7 +36,7 @@
         "BloodPressure",
         "Age",
         "Pregnancies",
-        "SkinThickness",
+        "SkinThickness", 
       ];
 
       const node = data.map((item, id) => ({
@@ -44,19 +44,18 @@
         Insulin: parseFloat(item.Insulin) || 0,
         BMI: parseFloat(item.BMI) || 0,
         Glucose: parseFloat(item.Glucose) || 0,
-        DiabetesPedigreeFunction:
-          parseFloat(item.DiabetesPedigreeFunction) || 0,
+        DiabetesPedigreeFunction: parseFloat(item.DiabetesPedigreeFunction) || 0,
         BloodPressure: parseFloat(item.BloodPressure) || 0,
         Age: parseFloat(item.Age) || 0,
         Pregnancies: parseFloat(item.Pregnancies) || 0,
         SkinThickness: parseFloat(item.SkinThickness) || 0,
-        color: item.Outcome === "1" ? "#FF0000" : "#00FF00",
+        color: item.Outcome === "1" ? "#FF0000" : "#00FF00", 
       }));
 
       const config = {
-        x: "Insulin",
-        y: "BMI",
-        z: "Glucose",
+        X: "Insulin",
+        Y: "BMI",
+        Z: "Glucose",
       };
 
       window.addEventListener("load", async () => {
@@ -69,49 +68,66 @@
           OrbitModifier3D,
           Vector3,
           SciChartSurface,
+          MouseWheelZoomModifier3D,
+          ResetCamera3DModifier,
+          TooltipModifier3D,
+          SciChartJsNavyTheme
         } = window.SciChart;
 
         SciChartSurface.UseCommunityLicense();
-        const { sciChart3DSurface, wasmContext } =
-          await SciChart3DSurface.create("scichart-root");
+        
+        const { sciChart3DSurface, wasmContext } = await SciChart3DSurface.create(
+            "scichart-root", 
+            {
+                theme: new SciChartJsNavyTheme(),
+                cameraOptions: {
+                position: new Vector3(-300, 300, 300),
+                target: new Vector3(0, 50, 0),
+            }
+        });
+
         sciChart3DSurface.xAxis = new NumericAxis3D(wasmContext, {
-            axisTitle: "Insulin",
-          });
-          sciChart3DSurface.yAxis = new NumericAxis3D(wasmContext, {
-            axisTitle: "BMI",
-          });
-          sciChart3DSurface.zAxis = new NumericAxis3D(wasmContext, {
-            axisTitle: "Glucose",
-          });
+                axisTitle: "Insulin",
+            });
+        sciChart3DSurface.yAxis = new NumericAxis3D(wasmContext, {
+                axisTitle: "BMI",
+            });
+        sciChart3DSurface.zAxis = new NumericAxis3D(wasmContext, {
+                axisTitle: "Glucose",
+            });
 
         const updateChart = () => {
             sciChart3DSurface.renderableSeries.clear()
-          sciChart3DSurface.xAxis = new NumericAxis3D(wasmContext, {
-            axisTitle: config.x,
-          });
-          sciChart3DSurface.yAxis = new NumericAxis3D(wasmContext, {
-            axisTitle: config.y,
-          });
-          sciChart3DSurface.zAxis = new NumericAxis3D(wasmContext, {
-            axisTitle: config.z,
-          });
+            sciChart3DSurface.xAxis = new NumericAxis3D(wasmContext, {
+                axisTitle: config.X,
+            });
+            sciChart3DSurface.yAxis = new NumericAxis3D(wasmContext, {
+                axisTitle: config.Y,
+            });
+            sciChart3DSurface.zAxis = new NumericAxis3D(wasmContext, {
+                axisTitle: config.Z,
+            });
 
           // Create the 3D scatter series
           const scatterSeries = new window.SciChart.ScatterRenderableSeries3D(
             wasmContext,
             {
               dataSeries: new XyzDataSeries3D(wasmContext, {
-                xValues: node.map((point) => point[config.x]),
-                yValues: node.map((point) => point[config.y]),
-                zValues: node.map((point) => point[config.z]),
+                xValues: node.map((point) => point[config.X]),
+                yValues: node.map((point) => point[config.Y]),
+                zValues: node.map((point) => point[config.Z]),
               }),
               pointMarker: new SpherePointMarker3D(wasmContext, {
                 size: 10,
                 fill: "#ff00ff", // Color should be set by node.color for each
-                // fill: node.map((v) => v.color)
+                // fill: (index) => node[index].color
               }),
             }
           );
+
+        //   scatterSeries.dataSeries.setColorMap(
+        //     node.map((point) => point.color)
+        //   )
 
           sciChart3DSurface.renderableSeries.add(scatterSeries);
         };
@@ -120,37 +136,62 @@
           position: new Vector3(400, 400, 400),
           target: new Vector3(0, 0, 0),
         });
+ 
+        /** @todo add on screen instructions for controls */
+        sciChart3DSurface.chartModifiers.add(
+            new OrbitModifier3D({
+                isEnabled: true,
+                
+            }),
+            new MouseWheelZoomModifier3D(),
+            new ResetCamera3DModifier ({
+                isAnimated: true,
+                animationDuration: 2000,
+                // Camera will animate to this position on double click (or initial position if not set) 
+                destination: {
+                  radius: 600,
+                  pitch: 30,
+                  yaw: 45,
+                }
+            }),
+            new TooltipModifier3D({
+                isCrosshairVisible: true,
+                isTooltipVisible: true,
+                crosshairStroke: "#83D2F5",
+                crosshairStrokeThickness: 3,
+                tooltipContainerBackground: "#537ABD",
+                tooltipTextStroke: "White",
+                tooltipLegendOffsetX: 10,
+                tooltipLegendOffsetY: 10
+            })
+        ) 
 
-        sciChart3DSurface.chartModifiers.add(new OrbitModifier3D());
-
+        // TWEAKPANE
         const pane = new Pane({
           container: document.getElementById("gui-container"),
-        });
+        })
 
-        pane
-          .addBinding(config, "x", {
+        pane.addBinding(config, "X", {
             options: predictors.reduce((acc, p) => {
-              acc[p] = p;
-              return acc;
+                acc[p] = p;
+                return acc;
             }, {}),
-          })
-          .on("change", updateChart);
-        pane
-          .addBinding(config, "y", {
+        }).on("change", updateChart)
+
+        pane.addBinding(config, "Y", {
             options: predictors.reduce((acc, p) => {
-              acc[p] = p;
-              return acc;
+                acc[p] = p;
+                return acc;
             }, {}),
-          })
-          .on("change", updateChart);
-        pane
-          .addBinding(config, "z", {
+        }).on("change", updateChart)
+
+        pane.addBinding(config, "Z", {
             options: predictors.reduce((acc, p) => {
-              acc[p] = p;
-              return acc;
+                acc[p] = p;
+                return acc;
             }, {}),
-          })
-          .on("change", updateChart);
+        }).on("change", updateChart)
+
       });
     </script>
   </body>
