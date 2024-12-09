@@ -44,7 +44,7 @@ export function toObject(str) {
     const rows = str.split('\n') // 1 Sample
     
     // Predictor row
-    const headers = rows[0].split(',').slice(0, 9).map(val => val.trim())
+    const headers = rows[0].split(',').slice(0, 10).map(val => val.trim())
     const data = rows.slice(1).map(row => {
         const values = row.split(',').map(val => val.trim())
         const sample = headers.reduce((acc, header, index) => {
@@ -53,6 +53,7 @@ export function toObject(str) {
         }, {})
         return sample
     })
+    console.log(data)
  
     return data.filter(sample => Object.keys(sample).length === headers.length)
 }

@@ -35,7 +35,7 @@
         "BloodPressure",
         "Age",
         "Pregnancies",
-        "SkinThickness", 
+        "SkinThickness",
       ];
 
       const node = data.map((item, id) => ({
@@ -46,9 +46,9 @@
         DiabetesPedigreeFunction: parseFloat(item.DiabetesPedigreeFunction) || 0,
         BloodPressure: parseFloat(item.BloodPressure) || 0,
         Age: parseFloat(item.Age) || 0,
-        Pregnancies: parseFloat(item.Pregnancies) || 0,
+        Pregnancies: parseFloat(item.Pregnancies) || -1,
         SkinThickness: parseFloat(item.SkinThickness) || 0,
-        color: item.Outcome === "1" ? "#FF0000" : "#00FF00", 
+        Outcome: item.Outcome || -1,   
       }));
 
       const config = {
@@ -69,64 +69,74 @@
           SciChartSurface,
           MouseWheelZoomModifier3D,
           ResetCamera3DModifier,
-          TooltipModifier3D, 
-          SciChartJsNavyTheme
+          TooltipModifier3D,
+          SciChartJsNavyTheme,
         } = window.SciChart;
 
         SciChartSurface.UseCommunityLicense();
-        
+
         const { sciChart3DSurface, wasmContext } = await SciChart3DSurface.create(
-            "scichart-root", 
-            {
-                theme: new SciChartJsNavyTheme(),
-                cameraOptions: {
-                position: new Vector3(-300, 300, 300),
-                target: new Vector3(0, 50, 0),
-            }
-        });
+          "scichart-root",
+          {
+            theme: new SciChartJsNavyTheme(),
+            cameraOptions: {
+              position: new Vector3(-300, 300, 300),
+              target: new Vector3(0, 50, 0),
+            },
+          }
+        );
 
         sciChart3DSurface.xAxis = new NumericAxis3D(wasmContext, {
-                axisTitle: "Insulin",
-            });
+          axisTitle: "Insulin",
+        });
         sciChart3DSurface.yAxis = new NumericAxis3D(wasmContext, {
-                axisTitle: "BMI",
-            });
+          axisTitle: "BMI",
+        });
         sciChart3DSurface.zAxis = new NumericAxis3D(wasmContext, {
-                axisTitle: "Glucose",
-            });
+          axisTitle: "Glucose",
+        });
 
         const updateChart = () => {
-            sciChart3DSurface.renderableSeries.clear()
-            sciChart3DSurface.xAxis = new NumericAxis3D(wasmContext, {
-                axisTitle: config.X,
-            });
-            sciChart3DSurface.yAxis = new NumericAxis3D(wasmContext, {
-                axisTitle: config.Y,
-            });
-            sciChart3DSurface.zAxis = new NumericAxis3D(wasmContext, {
-                axisTitle: config.Z,
-            });
+          sciChart3DSurface.renderableSeries.clear();
+          sciChart3DSurface.xAxis = new NumericAxis3D(wasmContext, {
+            axisTitle: config.X,
+          });
+          sciChart3DSurface.yAxis = new NumericAxis3D(wasmContext, {
+            axisTitle: config.Y,
+          });
+          sciChart3DSurface.zAxis = new NumericAxis3D(wasmContext, {
+            axisTitle: config.Z,
+          });
 
-          // Create the 3D scatter series
+          const dataSeries = new XyzDataSeries3D(wasmContext, {
+            xValues: node.map((point) => point[config.X]),
+            yValues: node.map((point) => point[config.Y]),
+            zValues: node.map((point) => point[config.Z]),
+          });
+ 
+          const paletteProvider = new (class extends window.SciChart.DefaultPaletteProvider {
+            overridePointMarkerArgb(xValue, yValue, index, opacity, metadata) {
+              const outcome = node[index].Outcome;
+              let color;
+              if (outcome === '1.0') {
+                color = { fill: '#FF0000', stroke: '#FF0000' };  
+              } else {
+                color = { fill: '#00FF00', stroke: '#00FF00' };  
+              }
+              return color;
+            }
+          })();
+
           const scatterSeries = new window.SciChart.ScatterRenderableSeries3D(
             wasmContext,
             {
-              dataSeries: new XyzDataSeries3D(wasmContext, {
-                xValues: node.map((point) => point[config.X]),
-                yValues: node.map((point) => point[config.Y]),
-                zValues: node.map((point) => point[config.Z]),
-              }),
+              dataSeries: dataSeries,
               pointMarker: new SpherePointMarker3D(wasmContext, {
                 size: 10,
-                fill: "#ff00ff", // Color should be set by node.color for each
-                // fill: (index) => node[index].color
               }),
+              paletteProvider: paletteProvider,  
             }
           );
-
-        //   scatterSeries.dataSeries.setColorMap(
-        //     node.map((point) => point.color)
-        //   )
 
           sciChart3DSurface.renderableSeries.add(scatterSeries);
         };
@@ -136,61 +146,64 @@
           target: new Vector3(0, 0, 0),
         });
  
-        /** @todo add on screen instructions for controls */
         sciChart3DSurface.chartModifiers.add(
-            new OrbitModifier3D({
-                isEnabled: true,
-                
-            }),
-            new MouseWheelZoomModifier3D(),
-            new ResetCamera3DModifier ({
-                isAnimated: true,
-                animationDuration: 2000,
-                // Camera will animate to this position on double click (or initial position if not set) 
-                destination: {
-                  radius: 600,
-                  pitch: 30,
-                  yaw: 45,
-                }
-            }),
-            new TooltipModifier3D({
-                isCrosshairVisible: true,
-                isTooltipVisible: true,
-                crosshairStroke: "#83D2F5",
-                crosshairStrokeThickness: 3,
-                tooltipContainerBackground: "#537ABD",
-                tooltipTextStroke: "White",
-                tooltipLegendOffsetX: 10,
-                tooltipLegendOffsetY: 10
-            })
-        ) 
-
-        // TWEAKPANE
+          new OrbitModifier3D({
+            isEnabled: true,
+          }),
+          new MouseWheelZoomModifier3D(),
+          new ResetCamera3DModifier({
+            isAnimated: true,
+            animationDuration: 2000,
+            destination: {
+              radius: 600,
+              pitch: 30,
+              yaw: 45,
+            },
+          }),
+          new TooltipModifier3D({
+            isCrosshairVisible: true,
+            isTooltipVisible: true,
+            crosshairStroke: "#83D2F5",
+            crosshairStrokeThickness: 3,
+            tooltipContainerBackground: "#537ABD",
+            tooltipTextStroke: "White",
+            tooltipLegendOffsetX: 10,
+            tooltipLegendOffsetY: 10,
+          })
+        );
+ 
         const pane = new Pane({
           container: document.getElementById("gui-container"),
-        })
+        });
 
-        pane.addBinding(config, "X", {
+        pane
+          .addBinding(config, "X", {
             options: predictors.reduce((acc, p) => {
-                acc[p] = p;
-                return acc;
+              acc[p] = p;
+              return acc;
             }, {}),
-        }).on("change", updateChart)
+          })
+          .on("change", updateChart);
 
-        pane.addBinding(config, "Y", {
+        pane
+          .addBinding(config, "Y", {
             options: predictors.reduce((acc, p) => {
-                acc[p] = p;
-                return acc;
+              acc[p] = p;
+              return acc;
             }, {}),
-        }).on("change", updateChart)
+          })
+          .on("change", updateChart);
 
-        pane.addBinding(config, "Z", {
+        pane
+          .addBinding(config, "Z", {
             options: predictors.reduce((acc, p) => {
-                acc[p] = p;
-                return acc;
+              acc[p] = p;
+              return acc;
             }, {}),
-        }).on("change", updateChart)
-
+          })
+          .on("change", updateChart);
+ 
+        updateChart();
       });
     </script>
   </body>

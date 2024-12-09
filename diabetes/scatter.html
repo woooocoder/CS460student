@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>SciChart 2D Scatter Plot</title>
+    <style>
+      body {
+        margin: 0;
+        overflow: hidden;
+      }
+      canvas {
+        display: block;
+      }
+      #scichart-root {
+        width: 100%;
+        height: 100vh;
+      }
+    </style>
+  </head>
+  <body>
+    <div id="scichart-root"></div>
+    <!-- <div id="gui-container" style="position: absolute; top: 10px; left: 10px; z-index: 10;"></div> -->
+
+    <script
+      src="https://cdn.jsdelivr.net/npm/scichart@3/index.min.js"
+      crossorigin="anonymous"
+    ></script>
+    <script type="module">
+      import { Pane } from "tweakpane";
+      import { toObject } from "./data.js";
+      import csv from "/diabetesImputed.csv?url&raw";
+
+      const data = toObject(csv);
+      const predictors = [
+        "Insulin",
+        "BMI",
+        "Glucose",
+        "DiabetesPedigreeFunction",
+        "BloodPressure",
+        "Age",
+        "Pregnancies",
+        "SkinThickness",
+      ];
+
+      const node = data.map((item, id) => ({
+        id: id,
+        Insulin: parseFloat(item.Insulin) || 0,
+        BMI: parseFloat(item.BMI) || 0,
+        Glucose: parseFloat(item.Glucose) || 0,
+        DiabetesPedigreeFunction:
+          parseFloat(item.DiabetesPedigreeFunction) || 0,
+        BloodPressure: parseFloat(item.BloodPressure) || 0,
+        Age: parseFloat(item.Age) || 0,
+        Pregnancies: parseFloat(item.Pregnancies) || 0,
+        SkinThickness: parseFloat(item.SkinThickness) || 0,
+        Outcome: item.Outcome || -1,
+        color: item.Outcome === 1 ? "#FF0000" : "#00FF00",
+      }));
+
+      const config = {
+        X: "Glucose",
+        Y: "BMI",
+      };
+
+      window.addEventListener("load", async () => {
+        const {
+          SciChartSurface,
+          NumericAxis,
+          XyDataSeries,
+          XyScatterRenderableSeries,
+          EllipsePointMarker,
+          ZoomPanModifier,
+          MouseWheelZoomModifier,
+          ZoomExtentsModifier,
+          LegendModifier,
+          SciChartJsNavyTheme,
+          CursorModifier,
+
+          DefaultPaletteProvider,
+          EStrokePaletteMode,
+          parseColorToUIntArgb,
+        } = window.SciChart;
+
+        class ScatterPaletteProvider extends DefaultPaletteProvider {
+          constructor(stroke, fill, rule) {
+            super();
+            this.strokePaletteMode = EStrokePaletteMode.SOLID;
+            this.rule = rule;
+            this.overrideStroke = parseColorToUIntArgb(stroke);
+            this.overrideFill = parseColorToUIntArgb(fill);
+          }
+
+          overridePointMarkerArgb(xValue, yValue, index, opacity, metadata) {
+           
+            if (this.rule(index)) {
+              return { stroke: this.overrideStroke, fill: this.overrideFill };
+            }
+            return undefined;
+          }
+        }
+
+        SciChartSurface.UseCommunityLicense();
+
+        const { sciChartSurface, wasmContext } = await SciChartSurface.create(
+          "scichart-root",
+          {
+            theme: new SciChartJsNavyTheme(),
+          }
+        );
+
+        sciChartSurface.xAxes.add(
+          new NumericAxis(wasmContext, { axisTitle: "Glucose" })
+        );
+        sciChartSurface.yAxes.add(
+          new NumericAxis(wasmContext, { axisTitle: "BMI" })
+        );
+        const rule = (index) => node[index].Outcome === "1.0";
+
+        const updateChart = () => {
+          sciChartSurface.xAxes.asArray()[0].axisTitle = config.X;
+          sciChartSurface.yAxes.asArray()[0].axisTitle = config.Y;
+          sciChartSurface.renderableSeries.clear();
+
+          const dataSeries = new XyDataSeries(wasmContext, {
+            xValues: node.map((point) => point[config.X]),
+            yValues: node.map((point) => point[config.Y]),
+
+            containsNaN: false,
+          });
+
+          const scatterSeries = new XyScatterRenderableSeries(wasmContext, {
+            dataSeries,
+            pointMarker: new EllipsePointMarker(wasmContext, {
+              width: 10,
+              height: 10,
+              strokeThickness: 0,
+              fill: "green",
+            }), 
+            paletteProvider: new ScatterPaletteProvider("black", "red", rule),
+          });
+
+          sciChartSurface.renderableSeries.add(scatterSeries);
+          sciChartSurface.zoomExtents();
+        };
+
+        sciChartSurface.chartModifiers.add(
+          new ZoomPanModifier(),
+          new MouseWheelZoomModifier(),
+          new ZoomExtentsModifier(),
+          new CursorModifier({
+            showTooltip: true,
+            showAxisLabels: true,
+            showXLine: true,
+            showYLine: true,
+            hitTestRadius: 5,
+            crosshairStroke: "#83D2F5",
+            crosshairStrokeThickness: 3,
+          })
+        );
+
+        updateChart();
+
+        const pane = new Pane({
+          container: document.getElementById("gui-container"),
+        });
+
+        pane
+          .addBinding(config, "X", {
+            options: predictors.reduce((acc, p) => {
+              acc[p] = p;
+              return acc;
+            }, {}),
+          })
+          .on("change", updateChart);
+
+        pane
+          .addBinding(config, "Y", {
+            options: predictors.reduce((acc, p) => {
+              acc[p] = p;
+              return acc;
+            }, {}),
+          })
+          .on("change", updateChart);
+      });
+    </script>
+  </body>
+</html>
