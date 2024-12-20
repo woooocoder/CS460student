@@ -1,0 +1,47 @@
+<div id="correlation-plot" style="width: 100%; height: 100vh;"></div>
+
+<script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
+
+<script>
+  window.addEventListener('load', () => {
+    const correlationMatrix = [
+      [1.000000, 0.127683, 0.217271, 0.086678, 0.035915, 0.023853, -0.033523, 0.544341, 0.221898],
+      [0.127683, 1.000000, 0.232910, 0.244979, 0.624991, 0.232785, 0.137179, 0.266074, 0.493075],
+      [0.217271, 0.232910, 1.000000, 0.229845, 0.118620, 0.295856, -0.000186, 0.327756, 0.179956],
+      [0.086678, 0.244979, 0.229845, 1.000000, 0.270592, 0.684564, 0.132238, 0.115141, 0.275447],
+      [0.035915, 0.624991, 0.118620, 0.270592, 1.000000, 0.311730, 0.157934, 0.152270, 0.337741],
+      [0.023853, 0.232785, 0.295856, 0.684564, 0.311730, 1.000000, 0.150680, 0.031647, 0.312417],
+      [-0.033523, 0.137179, -0.000186, 0.132238, 0.157934, 0.150680, 1.000000, 0.033561, 0.173844],
+      [0.544341, 0.266074, 0.327756, 0.115141, 0.152270, 0.031647, 0.033561, 1.000000, 0.238356],
+      [0.221898, 0.493075, 0.179956, 0.275447, 0.337741, 0.312417, 0.173844, 0.238356, 1.000000]
+    ];
+ 
+    const labels = [
+      "Pregnancies", "Glucose", "BloodPressure", "SkinThickness", 
+      "Insulin", "BMI", "DiabetesPedigreeFunction", "Age", "Outcome"
+    ];
+ 
+    const data = [
+      {
+        z: correlationMatrix,
+        x: labels,
+        y: labels,
+        colorscale: 'RdBu',  
+        colorbar: { title: 'Correlation' },
+        type: 'heatmap',
+        showscale: true
+      }
+    ];
+ 
+    const layout = {
+      title: 'Correlation Matrix of Predictors',
+      xaxis: { title: 'Predictors', tickangle: 45 },
+      yaxis: { title: 'Predictors' },
+      margin: { t: 50, b: 50, l: 50, r: 50 },
+      width: window.innerWidth,
+      height: window.innerHeight
+    };
+ 
+    Plotly.newPlot('correlation-plot', data, layout);
+  });
+</script>

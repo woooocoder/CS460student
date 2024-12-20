@@ -1,0 +1,93 @@
+<div id="plotly-3d-chart" style="width: 100%; height: 100%; position: relative;"></div>
+
+<script src="https://cdn.plot.ly/plotly-2.24.1.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/tweakpane@3.0.5/dist/tweakpane.min.js"></script>
+
+<script>
+  const models = [
+    "Logistic Regression",
+    "KNN",
+    "SVM",
+    "Decision Tree",
+    "Random Forest",
+    "Neural Network",
+    "Logistic Regression Tuned",
+    "KNN Tuned",
+    "Random Forest Tuned"
+  ];
+  const accuracy = [0.76, 0.77, 0.77, 0.75, 0.78, 0.75, 0.76, 0.77, 0.77];
+  const precision = [0.72, 0.69, 0.71, 0.67, 0.76, 0.63, 0.72, 0.71, 0.74];
+  const recall = [0.52, 0.63, 0.56, 0.56, 0.54, 0.67, 0.52, 0.56, 0.54];
+  const f1Score = [0.6, 0.66, 0.62, 0.61, 0.63, 0.65, 0.60, 0.62, 0.62];
+  const variance = [4.45, 2.71, 5.38, 6.73, 3.68, 4.51, 2.53, 1.59, 2.20];
+
+  const config = {
+    X: "Accuracy",
+    Y: "Precision",
+    Z: "Recall",
+  };
+
+  const metricsMap = {
+    Accuracy: accuracy,
+    Precision: precision,
+    Recall: recall,
+    "F1 Score": f1Score,
+    Variance: variance,
+  };
+
+  const updateChart = () => {
+    const xValues = metricsMap[config.X];
+    const yValues = metricsMap[config.Y];
+    const zValues = metricsMap[config.Z];
+ 
+    const colors = models.map(model => model.endsWith("Tuned") ? "yellow" : "red");
+
+    const trace = {
+      x: xValues,
+      y: yValues,
+      z: zValues,
+      text: models,
+      mode: "markers",
+      marker: {
+        size: 8,
+        color: colors,
+        line: {
+          color: "black",
+          width: 1,
+        },
+      },
+      type: "scatter3d",
+    };
+
+    const layout = {
+      scene: {
+        xaxis: { title: config.X },
+        yaxis: { title: config.Y },
+        zaxis: { title: config.Z },
+      },
+      margin: { l: 0, r: 0, b: 0, t: 0 },
+    };
+
+    Plotly.newPlot("plotly-3d-chart", [trace], layout);
+  };
+
+  window.addEventListener("load", () => { 
+    const pane = new Tweakpane.Pane({
+      container: document.getElementById("gui-container"),
+    });
+
+    const options = {
+      Accuracy: "Accuracy",
+      Precision: "Precision",
+      Recall: "Recall",
+      "F1 Score": "F1 Score",
+      Variance: "Variance",
+    };
+
+    pane.addInput(config, "X", { options }).on("change", updateChart);
+    pane.addInput(config, "Y", { options }).on("change", updateChart);
+    pane.addInput(config, "Z", { options }).on("change", updateChart);
+ 
+    updateChart();
+  });
+</script>

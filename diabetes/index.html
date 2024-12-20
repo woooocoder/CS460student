@@ -11,25 +11,124 @@
     <title>Woodrow Reese - Predicting Diabetes In Pima Indian Women</title>
     <script src="https://cdn.tailwindcss.com"></script>
 </head>
-<body class="overflow-hidden bg-black h-screen flex flex-col items-center font-sans">
-    <div class="text-white font-semibold text-2xl mt-[5vh]">
-        Diabetes Prediction of Pima Indian Women
-    </div>
+<body class="overflow-x-hidden bg-slate-900 h-screen font-sans text-white">
+    <div class="flex flex-col items-center mx-[10vw] pb-12">
+        
+        <nav class="bg-gray-800 p-4 shadow-xl bg-slate-950 font-semibold">
+            <div class="flex justify-between px-[16vw] w-[100vw]">
+                <button href="index.html" class="hover:text-gray-400">Home</button>
+                <button onclick="redirect('https://github.com/woooocoder/CS460student/tree/main/diabetes')" class="hover:text-gray-400">Website Docs</button>
+                <button onclick="redirect('https://github.com/woooocoder/machine-learning/tree/main/diabetes-ml')" class="hover:text-gray-400">ML Docs</button>
+                <button href="contact.html" class="hover:text-gray-400">Contact</button>
+            </div>
+        </nav>
 
-    <div class="wrapper flex flex-col justify-center items-center h-full space-y-[2vh]">
-        <button onclick="redirect('./proj.html')" class="z-50 py-2 px-4 rounded-2xl border-2 border-blue-400 text-blue-400 font-semibold hover:border-white hover:text-white hover:text-opacity-75 transition">Interactive Data Visualization</button>
-        
-        <button onclick="redirect('https://github.com/woooocoder/CS460student/tree/main/diabetes')" class="z-50 py-2 px-4 rounded-2xl border-2 border-blue-400 text-blue-400 font-semibold hover:border-white hover:text-white hover:text-opacity-75 transition">Documentation Of This Website</button>
-    
-    
-        <button onclick="redirect('https://github.com/woooocoder/machine-learning/tree/main/diabetes-ml')" class="z-50 py-2 px-4 rounded-2xl border-2 border-blue-400 text-blue-400 font-semibold hover:border-white hover:text-white hover:text-opacity-75 transition">Documentation Of The ML Model</button>
-    
-    </div>
-        
         <script>
             function redirect(link) {
-            window.location.href = link
-        }
-    </script>
+                window.location.href = link
+            }
+        </script>
+        
+        <h1 class="font-bold text-2xl my-[5vh]">
+            Diabetes Prediction of Pima Indian Women
+        </h1>    
+
+        <div>
+            <h2 class="font-bold text-xl mb-[1vh]">
+                Overview
+            </h2>
+
+            <p class="text-indent">
+                The Pima Indian tribe resides in both Arizona and Mexico. Within Arizona, there are two reservations with a total population of 20,000 people. 34.2% of men and 40.8% of women within the Pima community have type 2 diabetes. On a wider scale, 9.3% of the United States’ general population and 16% of the entire Native American population have type 2 diabetes. The Arizona Pima community has the highest rate of diabetes in the world! 
+                
+                <h3 class="font-semibold mt-[2vh] mb-[1vh]">Scientifically</h3>
+                 The presence of diabetes is described to be due to a genetic mutation which causes β-cell dysfunction, which results in obesity and insulin resistance. <a class="text-blue-300 hover:underline text-xs align-top">1</a> These two factors are strongly associated with type 2 diabetes. 
+                
+                <h3 class="font-semibold mt-[2vh] mb-[1vh]">Historically</h3> 
+                 The presence of diabetes can be due to the government’s negligence of the community during the nationwide financial/agricultural (drought) crisis through the 70s-80s. 
+                 <p class="my-[.25vh] font-medium">Here are some notable events:</p>
+                 <ul style="list-style-type: circle; margin-left: 5vw;">
+                    <li>The Soybean Embargo</li>
+                    <li>The Farm Credit and Debt Situation</li>
+                    <li>The Russian Grains Transaction</li>
+                 </ul> 
+                  These resulted in the emerging of agricultural monopolies, policy change, and the bankruptcy of smaller farms. Native American communities didn’t have representation throughout this era so the communities became food desserts. They depended on government issued food which lacked nutrition. 40% of their calories were from fat.<a class="text-blue-300 hover:underline text-xs align-top">2</a> 
+            </p>
+        </div>
+        
+        <div class="w-full border-[0.5px] mx-[5vw] border-white opacity-75 hover:opacity-35 my-[10vh]"></div>
+        <!-- <div class="text-xl font-light underline">
+            ETA + ML Pipeline
+        </div>
+        <div class="flex flex-col">
+            <div>Transform: EDA</div>
+            <div></div>
+        </div> -->
+
+        <div class="w-full h-full">
+            <!-- <h2 class="font-bold text-xl mb-[1vh]">The Dataset</h2>
+            <iframe src="hist.html" class="w-full h-[50vh]" scrolling="no"></iframe> -->
+
+        </div>
+        <div class="w-full h-full">
+            <h2 class="font-bold text-xl mb-[1vh]">Transform: Exploratory Data Analysis (EDA)</h2>
+            
+            <!-- <h3 class="font-semibold mt-[2vh] mb-[1vh]">Correlation Matrix</h3>
+            <iframe src="corr.html" class="w-full h-[50vh]" scrolling="no"></iframe> -->
+
+
+            <!-- <h3 class="font-semibold mt-[2vh] mb-[1vh]">2D Scatterplot</h3>
+            <iframe src="scatter2d.html" class="w-full h-[50vh]" scrolling="no"></iframe> -->
+
+<!-- 
+            <h3 class="font-semibold mt-[2vh] mb-[1vh]">3D Scatterplot</h3>
+            <iframe src="scatter3d.html" class="w-full h-[50vh]" scrolling="no"></iframe> -->
+        
+        
+            <h3 class="font-semibold mt-[2vh] mb-[1vh]">Handle Missing Values</h3>
+            <p>
+                The missing values will be imputed using K-nearest neighbors. This method is preferred because each predictor contains outliers and the scales/ranges vary. 
+                
+                <p>
+                    But first, we scale the predictors with the following formula: 
+                    <p class="font-semibold opacity-85 hover:opacity-50 text-center">score = (x - μ) / σ</p> 
+                     
+                    Scaling the data ensures that all predictors have a mean of 0 and a standard deviation of 1 which is essential for measuring euclidean distance.
+                </p>
+                
+                <p class="my-[.25vh] font-medium">KNN performs the following:</p>
+                <ul style="list-style-type: circle; margin-left: 5vw;">
+                    <li>Select a data point with a missing predictor</li>
+                    <li>Find N closest nodes relative to the other non-missing predictors</li>
+                    <li>Set the missing predictor to the mean of the N-nearest nodes</li>
+                </ul> 
+
+                This is illustrated with the graph below. Click on a data point to observe KNN(4).
+            </p>
+            <iframe src="knnImputation.html" class="w-full h-[50vh]" scrolling="no"></iframe>
+            
+            
+        </div>
+        
+        
+        <!-- RESEARCH Q1: How does the performance of different predictive models compare? -->
+        <h3 class="font-semibold mt-[2vh] mb-[1vh]">Performance Analyis</h3>
+        Cross Validation + Tuning Hyperparameters
+        <!-- <iframe src="performance.html" class="w-full h-[50vh]" scrolling="no"></iframe> -->
+        
+        <!-- Feature Importance -->
+        <!-- RESEARCH Q3 Insulin Relevance-->
+        <!-- Insulin is identidied as the most important feature. This feature raises concern because nearly 50% of the values were missing. Let's investigate...   -->
+
+        <!-- Confusion Matrices Dropdown -->
+
+        <!-- RESEARCH Q2: Scientifically, the presence of diabetes is described to be due to a genetic mutation which causes β-cell dysfunction, which results in obesity (BMI>30) and insulin resistance. How important are these predictors? -->
+
+        <!-- L: Load -->
+        <!-- Feature Engineering + Gradient Boosting -->
+
+
+
+    </div>
 </body>
 </html>

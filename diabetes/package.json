@@ -11,6 +11,7 @@
     "@tweakpane/plugin-camerakit": "^0.3.0",
     "3d-force-graph": "^1.74.0",
     "force-graph": "^1.47.0",
+    "plotly": "^1.0.6",
     "scichart": "^3.5.706",
     "three": "^0.152.2",
     "tweakpane": "^4.0.5"

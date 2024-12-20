@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>3D Correlation Matrix Cube</title>
+    <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
+</head>
+<body>
+    <div id="3d-correlation-matrix"></div>
+
+    <script>
+        const correlationMatrix = [
+            [1.000000, 0.127683, 0.217271],
+            [0.127683, 1.000000, 0.232910],
+            [0.217271, 0.232910, 1.000000]
+        ];
+
+        const correlationMatrix2 = [
+            [0.127683, 0.244979, 0.270592],
+            [0.244979, 0.684564, 0.311730],
+            [0.270592, 0.311730, 1.000000]
+        ];
+
+        // Define cube vertices for each face
+        const createFace = (colorMatrix, xShift = 0, yShift = 0, zShift = 0) => {
+            const x = [0, 1, 1, 0];
+            const y = [0, 0, 1, 1];
+            const z = [0, 0, 0, 0];
+
+            const colors = [];
+            colorMatrix.forEach(row => {
+                row.forEach(c => {
+                    colors.push(c);
+                });
+            });
+
+            return {
+                x: x.map(i => i + xShift),
+                y: y.map(i => i + yShift),
+                z: z.map(i => i + zShift),
+                intensity: colors,
+                type: 'mesh3d',
+                opacity: 0.7,
+                color: colors,
+                colorscale: 'Viridis',
+                flatshading: true
+            };
+        };
+ 
+        const faces = [
+            createFace(correlationMatrix, 0, 0, 1),  
+            createFace(correlationMatrix, 0, 0, -1), 
+            createFace(correlationMatrix2, 0, 1, 0), 
+            createFace(correlationMatrix2, 0, -1, 0),
+            createFace(correlationMatrix2, 1, 0, 0), 
+            createFace(correlationMatrix2, -1, 0, 0) 
+        ];
+ 
+        const layout = {
+            scene: {
+                xaxis: { visible: false },
+                yaxis: { visible: false },
+                zaxis: { visible: false },
+                camera: {
+                    up: { x: 0, y: 0, z: 1 },
+                    center: { x: 0, y: 0, z: 0 },
+                    eye: { x: 2, y: 2, z: 2 }
+                }
+            },
+            margin: { l: 0, r: 0, b: 0, t: 0 },  
+            width: 800,
+            height: 800,
+            
+        };
+
+        Plotly.newPlot('3d-correlation-matrix', faces, layout);
+    </script>
+</body>
+</html>

@@ -1,0 +1,119 @@
+<div id="bar-chart-container" style="width: 100%; height: 100%;"></div> 
+
+<script src="https://cdn.jsdelivr.net/npm/plotly.js-dist-min@2.17.0/plotly.min.js"></script>
+
+<script type="module">
+  import { Pane } from "tweakpane";
+  import { toObject } from "./data.js";    
+  import csv from "/diabetesImputed.csv?url&raw";  
+
+  const data = toObject(csv);
+ 
+  const predictors = [
+    "Insulin", "BMI", "Glucose", "DiabetesPedigreeFunction", 
+    "BloodPressure", "Age", "Pregnancies", "SkinThickness"
+  ];
+ 
+  const pane = new Pane();
+ 
+  const config = { predictor: predictors[0] };   
+  pane.addBinding(config, 'predictor', {
+    options: predictors.reduce((acc, p) => { acc[p] = p; return acc; }, {}),
+    label: 'Select Predictor'
+  }).on('change', updateChart);
+ 
+  function generateXValues(predictor) {
+    const values = data.map(item => {
+      const value = parseFloat(item[predictor]);
+      return !isNaN(value) ? value : null;  
+    }).filter(value => value !== null);  
+
+    const min = Math.min(...values);
+    const max = Math.max(...values);
+    const step = (max - min) / 9; 
+ 
+    const xValues = [];
+    for (let i = 0; i <= 9; i++) {
+      xValues.push(min + i * step);
+    }
+    return xValues;
+  }
+ 
+  function updateChart() {
+    const predictor = config.predictor;
+ 
+    const frequencies = {};
+    const xValues = generateXValues(predictor); 
+    const xLabels = [];
+ 
+    for (let i = 0; i < xValues.length - 1; i++) {
+      xLabels.push(`${xValues[i].toFixed(0)}-${xValues[i + 1].toFixed(0)}`);
+    }
+ 
+    data.forEach(item => {
+      const value = parseFloat(item[predictor]);
+      if (!isNaN(value)) {
+        for (let i = 0; i < xValues.length - 1; i++) {
+          if (value >= xValues[i] && value < xValues[i + 1]) {
+            frequencies[xLabels[i]] = frequencies[xLabels[i]] ? frequencies[xLabels[i]] + 1 : 1;
+            break;
+          }
+        }
+      }
+    });
+ 
+    const chartData = [{
+      x: xLabels,  
+      y: xLabels.map(label => frequencies[label] || 0), 
+      type: 'bar',
+    }];
+ 
+    const layout = {
+      title: `Frequency Distribution of ${predictor}`,
+      xaxis: { title: predictor },
+      yaxis: { title: 'Frequency' },
+    };
+ 
+    Plotly.newPlot('bar-chart-container', chartData, layout);
+
+    updatePredictorInfo(predictor);
+  }
+ 
+  function updatePredictorInfo(predictor) {
+    const infoDiv = document.getElementById('predictor-info');
+ 
+    let infoText = '';
+    switch (predictor) {
+      case 'Insulin':
+        infoText = 'Insulin is a hormone produced by the pancreas that helps regulate glucose levels in the blood.';
+        break;
+      case 'BMI':
+        infoText = 'BMI (Body Mass Index) is a measure of body fat based on height and weight.';
+        break;
+      case 'Glucose':
+        infoText = 'Glucose is a simple sugar that is an important energy source in the body.';
+        break;
+      case 'DiabetesPedigreeFunction':
+        infoText = 'Diabetes Pedigree Function is a score that indicates the genetic history of diabetes.';
+        break;
+      case 'BloodPressure':
+        infoText = 'Blood Pressure refers to the force of blood against the walls of your arteries.';
+        break;
+      case 'Age':
+        infoText = 'Age is a factor that can influence the risk of developing type 2 diabetes.';
+        break;
+      case 'Pregnancies':
+        infoText = 'The number of pregnancies a woman has had can affect the risk of developing diabetes.';
+        break;
+      case 'SkinThickness':
+        infoText = 'Skin thickness is often measured to assess insulin resistance.';
+        break;
+      default:
+        infoText = 'Select a predictor to see more information.';
+    }
+
+    infoDiv.innerHTML = `<h3>${predictor}</h3>: ${infoText}`;
+  }
+
+  updateChart();
+</script>
