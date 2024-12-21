@@ -66,69 +66,209 @@
         </div> -->
 
         <div class="w-full h-full">
-            <!-- <h2 class="font-bold text-xl mb-[1vh]">The Dataset</h2>
-            <iframe src="hist.html" class="w-full h-[50vh]" scrolling="no"></iframe> -->
-
-        </div>
-        <div class="w-full h-full">
-            <h2 class="font-bold text-xl mb-[1vh]">Transform: Exploratory Data Analysis (EDA)</h2>
-            
-            <!-- <h3 class="font-semibold mt-[2vh] mb-[1vh]">Correlation Matrix</h3>
-            <iframe src="corr.html" class="w-full h-[50vh]" scrolling="no"></iframe> -->
-
-
-            <!-- <h3 class="font-semibold mt-[2vh] mb-[1vh]">2D Scatterplot</h3>
-            <iframe src="scatter2d.html" class="w-full h-[50vh]" scrolling="no"></iframe> -->
-
-<!-- 
-            <h3 class="font-semibold mt-[2vh] mb-[1vh]">3D Scatterplot</h3>
-            <iframe src="scatter3d.html" class="w-full h-[50vh]" scrolling="no"></iframe> -->
-        
-        
-            <h3 class="font-semibold mt-[2vh] mb-[1vh]">Handle Missing Values</h3>
+            <h2 class="font-bold text-xl mb-[1vh]">Extract</h2> 
+            <a class="font-semibold text-xl mb-[1vh] text-blue-300 hover:underline">The Dataset</a>
+            <iframe src="hist.html" class="w-full h-[50vh]" scrolling="no"></iframe>
             <p>
-                The missing values will be imputed using K-nearest neighbors. This method is preferred because each predictor contains outliers and the scales/ranges vary. 
+                The data is collected for 768 women in which 280 (35%) have type 2 diabetes. Each entry consists of 8 predictors:
+                <ul style="list-style-type: circle; margin-left: 5vw;">
+                    <li>Pregnancies: The number of pregnancies a person has had [0-17]</li>
+                    <li>Glucose: The typical measurement is 70-105 mg/dL. Low glucose signals excessive insulin while high glucose signals insufficient insulin production. Both may be caused by insulin resistance. </li>
+                    <li>BloodPressure: Diastolic blood pressure measurement (while the heart is relaxed between beats). Typical rates are 60-80 mm*Hg. High blood pressure is a typical effect of type 2 diabetes</li>
+                    <li>SkinThickness: The skin thickness of the skin fold connecting the triceps and armpit. Typical values vary between age and body composition which may not be vividly captured through BMI.  </li>
+                    <li>Insulin: A typical insulin level is between 18-56 µU/mL. Higher levels signal insulin resistance and early-stage type 2 diabetes. Lower levels signal late-stage type 2 diabetes.</li>
+                    <li>BodyMassIndex: BMI = weight / height<a class="hover:underline text-xs align-top">2</a> (kg/m)</li>
+                    <li>
+                        DiabetesPedigreeFunction: Measurement of the relevance of genetics for the risk of diabetes in a person. It is based on the age, time of diagnosis and degree of relationship:
+                        <ul style="list-style-type: circle; margin-left: 5vw;">
+                            <li>
+                                1st degree: 50% of genetic similarity i.e. Parents, children, siblings    
+                            </li>
+                            <li>
+                                2nd degree: 25% of genetic similarity i.e. Grandparents, aunts/uncles, half siblings 
+                            </li>
+                            <li>etc.. for further degrees</li>
+                        </ul>
+                    </li>
+                    <li>Age: 21-81 years</li>
+                </ul>
+
+            </p>
+        </div>
+
+        <div class="w-full border-[0.5px] mx-[5vw] border-white opacity-75 hover:opacity-35 my-[10vh]"></div>
+
+        <div class="w-full h-full">
+            <h2 class="font-bold text-xl mb-[1vh]">Transform</h2>
+
+            <h3 class="font-semibold mt-[2vh] mb-[1vh]">1. Imputation</h3>
+            <p>
+                There are various missing values in the dataset and we must fill them before training a machine learning model. The method used in this instance is K-nearest neighbors imputation. This method is preferred because each predictor contains outliers and scales/ranges that vary.  
                 
                 <p>
-                    But first, we scale the predictors with the following formula: 
+                    First, the predictors are scaled with the following formula: 
                     <p class="font-semibold opacity-85 hover:opacity-50 text-center">score = (x - μ) / σ</p> 
                      
                     Scaling the data ensures that all predictors have a mean of 0 and a standard deviation of 1 which is essential for measuring euclidean distance.
                 </p>
                 
-                <p class="my-[.25vh] font-medium">KNN performs the following:</p>
-                <ul style="list-style-type: circle; margin-left: 5vw;">
+                <p class="my-[.25vh] font-medium">KNNImputer performs the following:</p>
+                <ol style="list-style-type: decimal; margin-left: 5vw;">
                     <li>Select a data point with a missing predictor</li>
                     <li>Find N closest nodes relative to the other non-missing predictors</li>
                     <li>Set the missing predictor to the mean of the N-nearest nodes</li>
-                </ul> 
+                </ol> 
 
                 This is illustrated with the graph below. Click on a data point to observe KNN(4).
             </p>
             <iframe src="knnImputation.html" class="w-full h-[50vh]" scrolling="no"></iframe>
             
+
+            <h3 class="font-semibold mt-[2vh] mb-[1vh]">2. Exploratory Data Analysis (EDA)</h3>
+            <h3 class="font-semibold mt-[2vh] mb-[1vh]">Correlation Matrix</h3>
+            <iframe src="corr.html" class="w-full h-[50vh]" scrolling="no"></iframe>
+            <p>
+                The correlation matrix illustrates the following linear relationships:
+                <ul style="list-style-type: circle; margin-left: 5vw;">
+                    <li>SkinThickness Vs BMI</li>
+                    <li>Age Vs Pregnancies</li>
+                    <li>Glucose Vs Outcome</li>
+                </ul>
+            </p>
+
+            <h3 class="font-semibold mt-[2vh] mb-[1vh]">2D Scatterplot</h3>
+            <iframe src="scatter2d.html" class="w-full h-[50vh]" scrolling="no"></iframe>
+            <p>
+                The previously mentioned linear relationships are also verified by viewing them on a scatterplot. We can also observe several thresholds for predictors where the majority of diabetic people reside:
+
+                <ul style="list-style-type: circle; margin-left: 5vw;">
+                    <li>Glucose > 125</li>
+                    <li>Age > 35</li>
+                    <li>BMI > 30</li>
+                    <li>SkinThickness > 20</li>
+                    <li>Insulin > 200</li>
+                    <li>BloodPressure > 80</li>
+                    <li>Pregnancies > 4</li>
+                </ul>
+            </p>
+
+            <h3 class="font-semibold mt-[2vh] mb-[1vh]">3D Scatterplot</h3>
+            <iframe src="scatter3d.html" class="w-full h-[50vh]" scrolling="no"></iframe>
+
+            <h3 class="font-semibold mt-[2vh] mb-[1vh]">Feature Engineering</h3>
+            <p>
+                Given the observed relationships and medical diagnosis, we can create more predictors to increase the accuracy of our model. 
+                For example, a BMI over 30 is considered obese which increases risk of diabetes.
+                Insulin resistance is known to be the leading cause of diabetes, which is signaled by an Insulin concentration of over 200. You are at a significantly higher risk if are both obese and have high insulin resistance. We'll generate binary features for these individual thresholds and complementary combinations of them.  
+            </p>
+        </div>
+
+        <div class="w-full h-full">
+            <h2 class="font-bold text-xl mb-[1vh] mt-[5vh]">Load</h2>
+            <p class="text-center">
+                Now that we have cleaned, imputed, and engineered our data, we're ready to run some machine learning models!
+            </p>
+
+            <h2 class="font-semibold text-xl mt-[2vh] mb-0 underline">How does the performance of different predictive models compare?</h2>
+            <h3 class="font-semibold my-[1vh]">Performance Analyis</h3>
+
+            <p>
+                The performance of a machine learning model is quantified by the 5 values:
+                <table border="1" style="border-collapse: collapse; width: 50%; text-align: left;">
+                    <thead>
+                      <tr>
+                        <th style="padding: 8px;">Abbreviation</th>
+                        <th style="padding: 8px;">Significance</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr>
+                        <td style="padding: 8px;">TP</td>
+                        <td style="padding: 8px;">True Positive</td>
+                      </tr>
+                      <tr>
+                        <td style="padding: 8px;">FP</td>
+                        <td style="padding: 8px;">False Positive</td>
+                      </tr>
+                      <tr>
+                        <td style="padding: 8px;">TN</td>
+                        <td style="padding: 8px;">True Negative</td>
+                      </tr>
+                      <tr>
+                        <td style="padding: 8px;">FN</td>
+                        <td style="padding: 8px;">False Negative</td>
+                      </tr>
+                    </tbody>
+                  </table>
+                  
+                  <table border="1" style="border-collapse: collapse; width: 100%; text-align: left;">
+                    <thead>
+                      <tr>
+                        <th style="padding: 8px;">Metric</th>
+                        <th style="padding: 8px;">Formula</th>
+                        <th style="padding: 8px;">Description</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr>
+                        <td style="padding: 8px;">Accuracy</td>
+                        <td style="padding: 8px;">(TP + TN) / (TP + TN + FP + FN)</td>
+                        <td style="padding: 8px;">The overall rate of correct predictions</td>
+                      </tr>
+                      <tr>
+                        <td style="padding: 8px;">Variance</td>
+                        <td style="padding: 8px;">N/A</td>
+                        <td style="padding: 8px;">Measurement of spread or dispersion in the data</td>
+                      </tr>
+                      <tr>
+                        <td style="padding: 8px;">Precision</td>
+                        <td style="padding: 8px;">TP / (TP + FP)</td>
+                        <td style="padding: 8px;">When I predict something positive, how often am I correct?</td>
+                      </tr>
+                      <tr>
+                        <td style="padding: 8px;">Recall</td>
+                        <td style="padding: 8px;">TP / (TP + FN)</td>
+                        <td style="padding: 8px;">Of all the actual positives, how many did I correctly identify?</td>
+                      </tr>
+                      <tr>
+                        <td style="padding: 8px;">F1 Score</td>
+                        <td style="padding: 8px;">2 * (Precision * Recall) / (Precision + Recall)</td>
+                        <td style="padding: 8px;">Harmonic mean of precision and recall</td>
+                      </tr>
+                    </tbody>
+                  </table>
+
+                We will run several models and cross validate them to generate these performance metrics. We will then tune hyperparameters and rerun the 3 top performing models. 
+            </p>
+
+            <iframe src="performance.html" class="w-full h-[50vh]" scrolling="no"></iframe>
             
+            <p>
+                The best performing model is Random Forest Classification across the board! The biggest concern is false negatives in the case of predicting diabetes, so we should attempt to increase the recall. A recall of 0.71 means that the model fails to identify 29% of people who have diabetes. This may be addressable by modifying/removing some of our engineered features, we could also perform a gradient booster.
+            </p>
         </div>
         
-        
-        <!-- RESEARCH Q1: How does the performance of different predictive models compare? -->
-        <h3 class="font-semibold mt-[2vh] mb-[1vh]">Performance Analyis</h3>
-        Cross Validation + Tuning Hyperparameters
-        <!-- <iframe src="performance.html" class="w-full h-[50vh]" scrolling="no"></iframe> -->
-        
-        <!-- Feature Importance -->
-        <!-- RESEARCH Q3 Insulin Relevance-->
-        <!-- Insulin is identidied as the most important feature. This feature raises concern because nearly 50% of the values were missing. Let's investigate...   -->
-
-        <!-- Confusion Matrices Dropdown -->
+        <div class="w-full h-full">
+            <!-- Confusion Matrices Dropdown -->
 
         <!-- RESEARCH Q2: Scientifically, the presence of diabetes is described to be due to a genetic mutation which causes β-cell dysfunction, which results in obesity (BMI>30) and insulin resistance. How important are these predictors? -->
 
-        <!-- L: Load -->
-        <!-- Feature Engineering + Gradient Boosting -->
-
-
-
+            <h3 class="font-semibold my-[1vh]">Feature Importance</h3>
+            
+        </div>
+        <div class="w-full h-full">
+            <h2>Insulin is recorded in only half of the observations. Is there a correlation between the target value in the people who are tested vs those who are not tested?</h2>
+            <h3 class="font-semibold my-[1vh]">Insulin Analysis</h3> 
+            <p>
+                Insulin is identidied as the most important feature. This feature raises concern because nearly 50% of the values were missing. Let's investigate...  
+            </p>
+            
+            <h4 class="font-semibold my-[1vh]">Distributions</h4>
+            <h4 class="font-semibold my-[1vh]">Correlation Insulin vs Outcome</h4>
+            <h4 class="font-semibold my-[1vh]">T-test & p-value</h4> 
+            <h4 class="font-semibold my-[1vh]">Model Performance</h4>
+            <h4 class="font-semibold my-[1vh]">ROC Curve</h4>
+        </div>
     </div>
 </body>
 </html>

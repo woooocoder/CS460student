@@ -15,11 +15,11 @@
     "KNN Tuned",
     "Random Forest Tuned"
   ];
-  const accuracy = [0.76, 0.77, 0.77, 0.75, 0.78, 0.75, 0.76, 0.77, 0.77];
-  const precision = [0.72, 0.69, 0.71, 0.67, 0.76, 0.63, 0.72, 0.71, 0.74];
-  const recall = [0.52, 0.63, 0.56, 0.56, 0.54, 0.67, 0.52, 0.56, 0.54];
-  const f1Score = [0.6, 0.66, 0.62, 0.61, 0.63, 0.65, 0.60, 0.62, 0.62];
-  const variance = [4.45, 2.71, 5.38, 6.73, 3.68, 4.51, 2.53, 1.59, 2.20];
+  const accuracy =   [0.76, 0.73, 0.72, 0.75, 0.78, 0.75, 0.78, 0.77, 0.80];
+  const variance =   [4.45, 2.71, 5.38, 6.73, 3.68, 4.51, 2.53, 2.15, 2.20];
+  const precision =  [0.72, 0.65, 0.71, 0.67, 0.76, 0.63, 0.75, 0.69, 0.74];
+  const recall =     [0.52, 0.52, 0.56, 0.56, 0.54, 0.67, 0.68, 0.63, 0.71];
+  const f1Score =    [0.60, 0.66, 0.62, 0.61, 0.63, 0.65, 0.71, 0.72, 0.72];
 
   const config = {
     X: "Accuracy",
@@ -47,12 +47,15 @@
       y: yValues,
       z: zValues,
       text: models,
-      mode: "markers",
+      textfont: {
+        color: 'white'
+      },
+      mode: "markers+text",
       marker: {
         size: 8,
         color: colors,
         line: {
-          color: "black",
+          color: "white",
           width: 1,
         },
       },
@@ -61,10 +64,26 @@
 
     const layout = {
       scene: {
-        xaxis: { title: config.X },
-        yaxis: { title: config.Y },
-        zaxis: { title: config.Z },
+        xaxis: { 
+          title: config.X,
+          tickfont: { color: 'white' },
+          gridcolor: "white",
+          zerolinecolor: "white",
+        },
+        yaxis: { 
+          title: config.Y,
+          tickfont: { color: 'white' },
+          gridcolor: "white",
+          zerolinecolor: "white",
+         },
+        zaxis: { 
+          title: config.Z, 
+          tickfont: { color: 'white' },
+          gridcolor: "white",
+          zerolinecolor: "white",
+         },
       },
+      paper_bgcolor: "rgb(15, 23, 42)",
       margin: { l: 0, r: 0, b: 0, t: 0 },
     };
 

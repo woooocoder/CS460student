@@ -19,7 +19,7 @@
   const config = { predictor: predictors[0] };   
   pane.addBinding(config, 'predictor', {
     options: predictors.reduce((acc, p) => { acc[p] = p; return acc; }, {}),
-    label: 'Select Predictor'
+    label: 'Predictor'
   }).on('change', updateChart);
  
   function generateXValues(predictor) {
@@ -82,7 +82,7 @@
   function updatePredictorInfo(predictor) {
     const infoDiv = document.getElementById('predictor-info');
  
-    let infoText = '';
+    let infoText = 'Insulin';
     switch (predictor) {
       case 'Insulin':
         infoText = 'Insulin is a hormone produced by the pancreas that helps regulate glucose levels in the blood.';
@@ -108,8 +108,7 @@
       case 'SkinThickness':
         infoText = 'Skin thickness is often measured to assess insulin resistance.';
         break;
-      default:
-        infoText = 'Select a predictor to see more information.';
+      default: ''
     }
 
     infoDiv.innerHTML = `<h3>${predictor}</h3>: ${infoText}`;
