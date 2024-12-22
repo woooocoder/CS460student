@@ -66,8 +66,8 @@
         </div> -->
 
         <div class="w-full h-full">
-            <h2 class="font-bold text-xl mb-[1vh]">Extract</h2> 
-            <a class="font-semibold text-xl mb-[1vh] text-blue-300 hover:underline">The Dataset</a>
+            <h2 class="font-bold text-xl mb-[1vh]">Extract</h2>  
+            <button onclick="redirect('https://www.kaggle.com/datasets/uciml/pima-indians-diabetes-database')" class="font-semibold text-xl mb-[1vh] hover:underline">The Dataset</button>
             <iframe src="hist.html" class="w-full h-[50vh]" scrolling="no"></iframe>
             <p>
                 The data is collected for 768 women in which 280 (35%) have type 2 diabetes. Each entry consists of 8 predictors:
@@ -126,7 +126,7 @@
 
             <h3 class="font-semibold mt-[2vh] mb-[1vh]">2. Exploratory Data Analysis (EDA)</h3>
             <h3 class="font-semibold mt-[2vh] mb-[1vh]">Correlation Matrix</h3>
-            <iframe src="corr.html" class="w-full h-[50vh]" scrolling="no"></iframe>
+            <iframe src="corr.html" class="w-full h-[50vh] mb-[1vh]" scrolling="no"></iframe>
             <p>
                 The correlation matrix illustrates the following linear relationships:
                 <ul style="list-style-type: circle; margin-left: 5vw;">
@@ -163,6 +163,8 @@
             </p>
         </div>
 
+        <div class="w-full border-[0.5px] mx-[5vw] border-white opacity-75 hover:opacity-35 my-[10vh]"></div>
+
         <div class="w-full h-full">
             <h2 class="font-bold text-xl mb-[1vh] mt-[5vh]">Load</h2>
             <p class="text-center">
@@ -174,66 +176,66 @@
 
             <p>
                 The performance of a machine learning model is quantified by the 5 values:
-                <table border="1" style="border-collapse: collapse; width: 50%; text-align: left;">
+                <table class="table-auto border border-collapse w-[50%] text-left">
                     <thead>
-                      <tr>
-                        <th style="padding: 8px;">Abbreviation</th>
-                        <th style="padding: 8px;">Significance</th>
+                      <tr class="bg-white bg-opacity-10">
+                        <th class="p-2 border border-white">Abbreviation</th>
+                        <th class="p-2 border border-white">Significance</th>
                       </tr>
                     </thead>
                     <tbody>
                       <tr>
-                        <td style="padding: 8px;">TP</td>
-                        <td style="padding: 8px;">True Positive</td>
+                        <td class="p-2 border border-white">TP</td>
+                        <td class="p-2 border border-white">True Positive</td>
                       </tr>
                       <tr>
-                        <td style="padding: 8px;">FP</td>
-                        <td style="padding: 8px;">False Positive</td>
+                        <td class="p-2 border border-white">FP</td>
+                        <td class="p-2 border border-white">False Positive</td>
                       </tr>
                       <tr>
-                        <td style="padding: 8px;">TN</td>
-                        <td style="padding: 8px;">True Negative</td>
+                        <td class="p-2 border border-white">TN</td>
+                        <td class="p-2 border border-white">True Negative</td>
                       </tr>
                       <tr>
-                        <td style="padding: 8px;">FN</td>
-                        <td style="padding: 8px;">False Negative</td>
+                        <td class="p-2 border border-white">FN</td>
+                        <td class="p-2 border border-white">False Negative</td>
                       </tr>
                     </tbody>
                   </table>
                   
-                  <table border="1" style="border-collapse: collapse; width: 100%; text-align: left;">
+                  <table class="table-auto border border-collapse w-[50%] text-left">
                     <thead>
-                      <tr>
-                        <th style="padding: 8px;">Metric</th>
-                        <th style="padding: 8px;">Formula</th>
-                        <th style="padding: 8px;">Description</th>
+                      <tr class="bg-white bg-opacity-10">
+                        <th class="p-2 border border-white">Metric</th>
+                        <th class="p-2 border border-white">Formula</th>
+                        <th class="p-2 border border-white">Description</th>
                       </tr>
                     </thead>
                     <tbody>
                       <tr>
-                        <td style="padding: 8px;">Accuracy</td>
-                        <td style="padding: 8px;">(TP + TN) / (TP + TN + FP + FN)</td>
-                        <td style="padding: 8px;">The overall rate of correct predictions</td>
+                        <td class="p-2 border border-white">Accuracy</td>
+                        <td class="p-2 border border-white">(TP + TN) / (TP + TN + FP + FN)</td>
+                        <td class="p-2 border border-white">The overall rate of correct predictions</td>
                       </tr>
                       <tr>
-                        <td style="padding: 8px;">Variance</td>
-                        <td style="padding: 8px;">N/A</td>
-                        <td style="padding: 8px;">Measurement of spread or dispersion in the data</td>
+                        <td class="p-2 border border-white">Variance</td>
+                        <td class="p-2 border border-white">N/A</td>
+                        <td class="p-2 border border-white">Measurement of spread or dispersion in the data</td>
                       </tr>
                       <tr>
-                        <td style="padding: 8px;">Precision</td>
-                        <td style="padding: 8px;">TP / (TP + FP)</td>
-                        <td style="padding: 8px;">When I predict something positive, how often am I correct?</td>
+                        <td class="p-2 border border-white">Precision</td>
+                        <td class="p-2 border border-white">TP / (TP + FP)</td>
+                        <td class="p-2 border border-white">When I predict something positive, how often am I correct?</td>
                       </tr>
                       <tr>
-                        <td style="padding: 8px;">Recall</td>
-                        <td style="padding: 8px;">TP / (TP + FN)</td>
-                        <td style="padding: 8px;">Of all the actual positives, how many did I correctly identify?</td>
+                        <td class="p-2 border border-white">Recall</td>
+                        <td class="p-2 border border-white">TP / (TP + FN)</td>
+                        <td class="p-2 border border-white">Of all the actual positives, how many did I correctly identify?</td>
                       </tr>
                       <tr>
-                        <td style="padding: 8px;">F1 Score</td>
-                        <td style="padding: 8px;">2 * (Precision * Recall) / (Precision + Recall)</td>
-                        <td style="padding: 8px;">Harmonic mean of precision and recall</td>
+                        <td class="p-2 border border-white">F1 Score</td>
+                        <td class="p-2 border border-white">2 * (Precision * Recall) / (Precision + Recall)</td>
+                        <td class="p-2 border border-white">Harmonic mean of precision and recall</td>
                       </tr>
                     </tbody>
                   </table>
@@ -247,15 +249,28 @@
                 The best performing model is Random Forest Classification across the board! The biggest concern is false negatives in the case of predicting diabetes, so we should attempt to increase the recall. A recall of 0.71 means that the model fails to identify 29% of people who have diabetes. This may be addressable by modifying/removing some of our engineered features, we could also perform a gradient booster.
             </p>
         </div>
+
+        <div class="w-full border-[0.5px] mx-[5vw] border-white opacity-75 hover:opacity-35 my-[10vh]"></div>
         
         <div class="w-full h-full">
             <!-- Confusion Matrices Dropdown -->
-
-        <!-- RESEARCH Q2: Scientifically, the presence of diabetes is described to be due to a genetic mutation which causes β-cell dysfunction, which results in obesity (BMI>30) and insulin resistance. How important are these predictors? -->
-
+            <h2>Scientifically, the presence of diabetes is described to be due to a genetic mutation which causes β-cell dysfunction, which results in obesity (BMI>30) and insulin resistance. How important are these predictors?</h2>
             <h3 class="font-semibold my-[1vh]">Feature Importance</h3>
+            <iframe src="feature_importance.html" class="w-full h-[50vh]" scrolling="no"></iframe>
+
+            <h3 class="font-semibold my-[1vh]">Permutation Importance</h3> 75.97%
+
+            <h3 class="font-semibold my-[1vh]">Partial Dependence</h3> 75.97%
+            <div class="flex flex-row h-full w-full space-x-[1vw]">
+                <img src="bmi-partial-dependence.png" class="w-1/3 xl:w-auto xl:mb-0 xl:mr-[1vw]" />
+                <img src="insulin-partial-dependence.png" class="w-1/3 xl:w-auto" />
+                <img src="pdp-2d.png" class="w-1/3 xl:w-auto" />
+            </div>
             
         </div>
+
+        <div class="w-full border-[0.5px] mx-[5vw] border-white opacity-75 hover:opacity-35 my-[10vh]"></div>
+
         <div class="w-full h-full">
             <h2>Insulin is recorded in only half of the observations. Is there a correlation between the target value in the people who are tested vs those who are not tested?</h2>
             <h3 class="font-semibold my-[1vh]">Insulin Analysis</h3> 
@@ -264,10 +279,69 @@
             </p>
             
             <h4 class="font-semibold my-[1vh]">Distributions</h4>
+            <div class="flex flex-col lg:flex-row h-full w-full space-x-[1vw]">
+                <img src="dist-imputed.png" class="w-1/2" />
+                <img src="dist-recorded.png" class="w-1/2" />
+            </div>
+            
             <h4 class="font-semibold my-[1vh]">Correlation Insulin vs Outcome</h4>
+            <p>0.34</p>
+            
             <h4 class="font-semibold my-[1vh]">T-test & p-value</h4> 
+            <table class="table-auto border border-collapse w-[50%] text-left">
+                <thead>
+                    <tr class="bg-white bg-opacity-10">
+                      <th class="p-2 border border-white">Metric</th>
+                      <th class="p-2 border border-white">Value</th> 
+                    </tr>
+                  </thead>
+                <tbody>
+                    <tr>
+                        <td class="p-2 border border-white">T-statistic</td>
+                        <td class="p-2 border border-white">1.46</td>
+                    </tr>
+                    
+                    <tr>
+                        <td class="p-2 border border-white">P-value</td>
+                        <td class="p-2 border border-white">0.15</td>
+                    </tr>
+                </tbody>
+            </table>
             <h4 class="font-semibold my-[1vh]">Model Performance</h4>
+            <table class="table-auto border border-collapse w-[50%] text-left">
+                <thead>
+                  <tr class="bg-white bg-opacity-10">
+                    <th class="p-2 border border-white">Metric</th>
+                    <th class="p-2 border border-white">Without Insulin</th>
+                    <th class="p-2 border border-white">With Insulin</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td class="p-2 border border-white">Accuracy</td>
+                    <td class="p-2 border border-white">75%</td>
+                    <td class="p-2 border border-white">76%</td>
+                  </tr>
+                  <tr>
+                    <td class="p-2 border border-white">Recall</td>
+                    <td class="p-2 border border-white">60%</td>
+                    <td class="p-2 border border-white">52%</td>
+                  </tr>
+                  <tr>
+                    <td class="p-2 border border-white">Precision</td>
+                    <td class="p-2 border border-white">65%</td>
+                    <td class="p-2 border border-white">72%</td>
+                  </tr>
+                  <tr>
+                    <td class="p-2 border border-white">F1 Score</td>
+                    <td class="p-2 border border-white">0.62</td>
+                    <td class="p-2 border border-white">0.60</td>
+                  </tr>
+                </tbody>
+              </table>
+
             <h4 class="font-semibold my-[1vh]">ROC Curve</h4>
+            <img src="roc.png" />
         </div>
     </div>
 </body>

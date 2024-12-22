@@ -1,5 +1,5 @@
 <div id="bar-chart-container" style="width: 100%; height: 100%;"></div> 
-
+<div id="predictor-info"></div>
 <script src="https://cdn.jsdelivr.net/npm/plotly.js-dist-min@2.17.0/plotly.min.js"></script>
 
 <script type="module">
@@ -67,11 +67,25 @@
       y: xLabels.map(label => frequencies[label] || 0), 
       type: 'bar',
     }];
- 
+  
     const layout = {
-      title: `Frequency Distribution of ${predictor}`,
-      xaxis: { title: predictor },
-      yaxis: { title: 'Frequency' },
+      xaxis: {
+        title: { text: predictor, font: { color: "white" } },
+        tickfont: { color: "white" },
+        gridcolor: "white",
+        zerolinecolor: "white",
+      },
+      yaxis: {
+        title: { text: 'Frequency', font: { color: "white" } },
+        tickfont: { color: "white" },
+        gridcolor: "white",
+        zerolinecolor: "white",
+      },
+      title: { text: `Frequency Distribution of ${predictor}`, font: { color: "white" } },
+      showlegend: false,
+      paper_bgcolor: "rgb(15, 23, 42)",
+      plot_bgcolor: "rgb(15, 23, 42)",
+      margin: { l: 50, r: 50, b: 50, t: 50 },
     };
  
     Plotly.newPlot('bar-chart-container', chartData, layout);

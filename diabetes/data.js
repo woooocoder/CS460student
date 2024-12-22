@@ -52,8 +52,7 @@ export function toObject(str) {
             return acc
         }, {})
         return sample
-    })
-    console.log(data)
+    }) 
  
     return data.filter(sample => Object.keys(sample).length === headers.length)
 }
