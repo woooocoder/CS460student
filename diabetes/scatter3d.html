@@ -1,15 +1,10 @@
-<!-- graph.html -->
-<div id="scichart-root" style="width: 100%; height: 100vh;"></div>
-
-<script
-  src="https://cdn.jsdelivr.net/npm/scichart@3/index.min.js"
-  crossorigin="anonymous"
-></script>
-
+<div id="scatter-plot-3d" style="width: 100%; height: 100vh;"></div>
+<script src="https://cdn.plot.ly/plotly-2.24.1.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/tweakpane@3.0.5/dist/tweakpane.min.js"></script>
 <script type="module">
   import { Pane } from "tweakpane";
   import { toObject } from "./data.js";
-  import csv from "/diabetesImputed.csv?url&raw";  
+  import csv from "/diabetesImputed.csv?url&raw";
 
   const data = toObject(csv);
   const predictors = [
@@ -35,104 +30,74 @@
     X: "Insulin",
     Y: "BMI",
     Z: "Glucose",
-    colorCodingEnabled: true,  
+    colorCodingEnabled: true,
   };
 
-  window.addEventListener("load", async () => {
-    const {
-      SciChart3DSurface, NumericAxis3D, XyzDataSeries3D, SpherePointMarker3D,
-      CameraController, OrbitModifier3D, Vector3, SciChartSurface,
-      MouseWheelZoomModifier3D, ResetCamera3DModifier, TooltipModifier3D,
-      SciChartJsNavyTheme,
-    } = window.SciChart;
+  function updateChart() {
+    const xValues = node.map((point) => point[config.X]);
+    const yValues = node.map((point) => point[config.Y]);
+    const zValues = node.map((point) => point[config.Z]);
+    const colors = config.colorCodingEnabled
+      ? node.map((point) => point.color)  
+      : node.map(() => "#0000FF");  
 
-    SciChartSurface.UseCommunityLicense();
-
-    const { sciChart3DSurface, wasmContext } = await SciChart3DSurface.create(
-      "scichart-root", {
-        theme: new SciChartJsNavyTheme(),
-        cameraOptions: { position: new Vector3(-300, 300, 300), target: new Vector3(0, 50, 0) }
-      }
-    );
-
-    sciChart3DSurface.xAxis = new NumericAxis3D(wasmContext, { axisTitle: "Insulin" });
-    sciChart3DSurface.yAxis = new NumericAxis3D(wasmContext, { axisTitle: "BMI" });
-    sciChart3DSurface.zAxis = new NumericAxis3D(wasmContext, { axisTitle: "Glucose" });
-
-    const updateChart = () => {
-      sciChart3DSurface.renderableSeries.clear();
-      sciChart3DSurface.xAxis = new NumericAxis3D(wasmContext, { axisTitle: config.X });
-      sciChart3DSurface.yAxis = new NumericAxis3D(wasmContext, { axisTitle: config.Y });
-      sciChart3DSurface.zAxis = new NumericAxis3D(wasmContext, { axisTitle: config.Z });
-
-      const dataSeries = new XyzDataSeries3D(wasmContext, {
-        xValues: node.map((point) => point[config.X]),
-        yValues: node.map((point) => point[config.Y]),
-        zValues: node.map((point) => point[config.Z]),
-      });
-
-      const paletteProvider = new (class extends window.SciChart.DefaultPaletteProvider {
-        overridePointMarkerArgb(xValue, yValue, index, opacity, metadata) {
-          if (config.colorCodingEnabled) {
-            const color = node[index].color; 
-            return { fill: color, stroke: color }; 
-          } else { 
-            return { fill: '#FFFFFF', stroke: '#000000' };   
-          }
-        }
-      })();
-
-      const scatterSeries = new window.SciChart.ScatterRenderableSeries3D(wasmContext, {
-        dataSeries: dataSeries,
-        pointMarker: new SpherePointMarker3D(wasmContext, { 
-          size: 10,
-          strokeThickness: 2,  
-          stroke: "black",      
-        }),
-        paletteProvider: paletteProvider,  
-      });
-
-      sciChart3DSurface.renderableSeries.add(scatterSeries);
+    const trace = {
+      x: xValues,
+      y: yValues,
+      z: zValues,
+      mode: "markers",
+      marker: {
+        size: 5,
+        color: colors,
+        line: { color: "black", width: 1 },
+        opacity: 0.8,
+      },
+      type: "scatter3d",
     };
 
-    sciChart3DSurface.camera = new CameraController(wasmContext, {
-      position: new Vector3(400, 400, 400),
-      target: new Vector3(0, 0, 0),
-    });
+    const layout = {
+      scene: {
+        xaxis: { 
+          title: config.X,
+          tickfont: { color: 'white' },
+          gridcolor: "white",
+          zerolinecolor: "white",
+        },
+        yaxis: { 
+          title: config.Y,
+          tickfont: { color: 'white' },
+          gridcolor: "white",
+          zerolinecolor: "white",
+         },
+        zaxis: { 
+          title: config.Z, 
+          tickfont: { color: 'white' },
+          gridcolor: "white",
+          zerolinecolor: "white",
+         },
+      },
+      paper_bgcolor: "rgb(15, 23, 42)",
+      margin: { l: 0, r: 0, b: 0, t: 0 },
+    };
 
-    sciChart3DSurface.chartModifiers.add(
-      new OrbitModifier3D({ isEnabled: true }),
-      new MouseWheelZoomModifier3D(),
-      new ResetCamera3DModifier({
-        isAnimated: true,
-        animationDuration: 2000,
-        destination: { radius: 600, pitch: 30, yaw: 45 },
-      }),
-      new TooltipModifier3D({
-        isCrosshairVisible: true,
-        isTooltipVisible: true,
-        crosshairStroke: "#83D2F5",
-        crosshairStrokeThickness: 3,
-        tooltipContainerBackground: "#537ABD",
-        tooltipTextStroke: "White",
-        tooltipLegendOffsetX: 10,
-        tooltipLegendOffsetY: 10,
-      })
-    );
+    Plotly.newPlot("scatter-plot-3d", [trace], layout);
+  }
 
-    const pane = new Pane({ container: document.getElementById("gui-container") });
+  window.addEventListener("load", () => {
+    const pane = new Pane();
 
-    // X, Y, Z dropdown bindings
-    pane.addBinding(config, "X", { options: predictors.reduce((acc, p) => { acc[p] = p; return acc; }, {}) })
-      .on("change", updateChart);
-    pane.addBinding(config, "Y", { options: predictors.reduce((acc, p) => { acc[p] = p; return acc; }, {}) })
-      .on("change", updateChart);
-    pane.addBinding(config, "Z", { options: predictors.reduce((acc, p) => { acc[p] = p; return acc; }, {}) })
-      .on("change", updateChart);
- 
+    const options = predictors.reduce((acc, p) => {
+      acc[p] = p;
+      return acc;
+    }, {});
+
+    pane.addBinding(config, "X", { options }).on("change", updateChart);
+    pane.addBinding(config, "Y", { options }).on("change", updateChart);
+    pane.addBinding(config, "Z", { options }).on("change", updateChart);
+
     pane.addBinding(config, "colorCodingEnabled", {
-      label: 'Color by Outcome',
-      view: 'checkbox',  
+      label: "Color By Outcome",
+      view: "checkbox",
     }).on("change", updateChart);
 
     updateChart();

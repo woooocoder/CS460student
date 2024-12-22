@@ -1,9 +1,6 @@
-<div id="scichart-root-2d"></div>
-
-<script
-  src="https://cdn.jsdelivr.net/npm/scichart@3/index.min.js"
-  crossorigin="anonymous"
-></script>
+<div id="scatter-plot" style="width: 100%; height: 100%"></div>
+<script src="https://cdn.plot.ly/plotly-2.24.1.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/tweakpane@3.0.5/dist/tweakpane.min.js"></script>
 <script type="module">
   import { Pane } from "tweakpane";
   import { toObject } from "./data.js";
@@ -32,143 +29,81 @@
     Pregnancies: parseFloat(item.Pregnancies) || -1,
     SkinThickness: parseFloat(item.SkinThickness) || 0,
     Outcome: item.Outcome || -1,
-    color: item.Outcome === "1.0" ? "#FF0000" : "#00FF00",
   }));
 
   const config = {
     X: "Glucose",
     Y: "BMI",
-    enableColorByOutcome: true,   
+    enableColorByOutcome: true,
   };
 
-  window.addEventListener("load", async () => {
-    const {
-      SciChartSurface,
-      NumericAxis,
-      XyDataSeries,
-      XyScatterRenderableSeries,
-      EllipsePointMarker,
-      ZoomPanModifier,
-      MouseWheelZoomModifier,
-      ZoomExtentsModifier,
-      LegendModifier,
-      SciChartJsNavyTheme,
-      CursorModifier,
-      DefaultPaletteProvider,
-      EStrokePaletteMode,
-      parseColorToUIntArgb,
-    } = window.SciChart;
+  function updateChart() {
+    const xValues = node.map((point) => point[config.X]);
+    const yValues = node.map((point) => point[config.Y]);
+    const colors = config.enableColorByOutcome
+      ? node.map((point) => (point.Outcome === "1.0" ? "red" : "green"))
+      : "blue";
 
-    class ScatterPaletteProvider extends DefaultPaletteProvider {
-      constructor(stroke, fill, rule) {
-        super();
-        this.strokePaletteMode = EStrokePaletteMode.SOLID;
-        this.rule = rule;
-        this.overrideStroke = parseColorToUIntArgb(stroke);
-        this.overrideFill = parseColorToUIntArgb(fill);
-      }
-
-      overridePointMarkerArgb(xValue, yValue, index, opacity, metadata) {
-        if (this.rule(index)) {
-          return { stroke: this.overrideStroke, fill: this.overrideFill };
-        }
-        return undefined;
-      }
-    }
-
-    SciChartSurface.UseCommunityLicense();
-
-    const { sciChartSurface, wasmContext } = await SciChartSurface.create(
-      "scichart-root-2d",
-      {
-        theme: new SciChartJsNavyTheme(),
-      }
-    );
-
-    sciChartSurface.xAxes.add(
-      new NumericAxis(wasmContext, { axisTitle: "Glucose" })
-    );
-    sciChartSurface.yAxes.add(
-      new NumericAxis(wasmContext, { axisTitle: "BMI" })
-    );
- 
-    const updateChart = () => {
-      sciChartSurface.xAxes.asArray()[0].axisTitle = config.X;
-      sciChartSurface.yAxes.asArray()[0].axisTitle = config.Y;
-      sciChartSurface.renderableSeries.clear();
-
-      const dataSeries = new XyDataSeries(wasmContext, {
-        xValues: node.map((point) => point[config.X]),
-        yValues: node.map((point) => point[config.Y]),
-        containsNaN: false,
-      });
-
-      const rule = config.enableColorByOutcome
-        ? (index) => node[index].Outcome === "1.0"
-        : () => false;
-
-      const scatterSeries = new XyScatterRenderableSeries(wasmContext, {
-        dataSeries,
-        pointMarker: new EllipsePointMarker(wasmContext, {
-          width: 10,
-          height: 10,
-          strokeThickness: 2,  
-          fill: "green",
-          stroke: "black",  
-        }),
-        paletteProvider: new ScatterPaletteProvider(
-          "black",
-          "red",
-          rule
-        ),
-      });
-
-      sciChartSurface.renderableSeries.add(scatterSeries);
-      sciChartSurface.zoomExtents();
+    const trace = {
+      x: xValues,
+      y: yValues,
+      mode: "markers",
+      marker: {
+        size: 8,
+        color: colors,
+        line: {
+          color: "black",
+          width: 1,
+        },
+      },
+      text: node.map((point) => `ID: ${point.id}`),
+      type: "scatter",
     };
 
-    sciChartSurface.chartModifiers.add(
-      new ZoomPanModifier(),
-      new MouseWheelZoomModifier(),
-      new ZoomExtentsModifier(),
-      new CursorModifier({
-        showTooltip: true,
-        showAxisLabels: true,
-        showXLine: true,
-        showYLine: true,
-        hitTestRadius: 5,
-        crosshairStroke: "#83D2F5",
-        crosshairStrokeThickness: 3,
-      })
-    );
+    const layout = {
+      xaxis: {
+        title: { text: config.X, font: { color: "white" } },
+        tickfont: { color: "white" },
+        gridcolor: "white",
+        zerolinecolor: "white",
+      },
+      yaxis: {
+        title: { text: config.Y, font: { color: "white" } },
+        tickfont: { color: "white" },
+        gridcolor: "white",
+        zerolinecolor: "white",
+      },
+      title: { text: "Scatter Plot", font: { color: "white" } },
+      showlegend: false,
+      paper_bgcolor: "rgb(15, 23, 42)",
+      plot_bgcolor: "rgb(15, 23, 42)",
+      margin: { l: 50, r: 50, b: 50, t: 50 },
+    };
 
-    updateChart();
- 
+    Plotly.newPlot("scatter-plot", [trace], layout);
+  }
+
+  window.addEventListener("load", () => {
     const pane = new Pane({
       container: document.getElementById("gui-container"),
     });
- 
+
+    const options = predictors.reduce((acc, p) => {
+      acc[p] = p;
+      return acc;
+    }, {});
+
+    pane.addBinding(config, "X", { options }).on("change", updateChart);
+
+    pane.addBinding(config, "Y", { options }).on("change", updateChart);
+
     pane
-      .addBinding(config, "X", {
-        options: predictors.reduce((acc, p) => {
-          acc[p] = p;
-          return acc;
-        }, {}),
+      .addBinding(config, "enableColorByOutcome", {
+        view: "checkbox",
+        label: "Color by Outcome",
       })
       .on("change", updateChart);
 
-    pane
-      .addBinding(config, "Y", {
-        options: predictors.reduce((acc, p) => {
-          acc[p] = p;
-          return acc;
-        }, {}),
-      })
-      .on("change", updateChart);
- 
-    pane.addBinding(config, "enableColorByOutcome", {
-      view: "checkbox",
-      label: "Color by Outcome",
-    }).on("change", updateChart);
+    updateChart();
   });
 </script>
