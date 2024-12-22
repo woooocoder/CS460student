@@ -3,14 +3,14 @@
 ## Overview
 
 ## Technologies
-![Plotly](https://plotly.com/javascript/)
-![SciChart](https://www.scichart.com/documentation/js/current/webframe.html#SciChart_JS_User_Manual.html)
-![THREE.js](https://threejs.org/docs/index.html#manual/en/introduction/Creating-a-scene)
-![Vite](https://vite.dev/)
+[Plotly](https://plotly.com/javascript/)
+[SciChart](https://www.scichart.com/documentation/js/current/webframe.html#SciChart_JS_User_Manual.html)
+[THREE.js](https://threejs.org/docs/index.html#manual/en/introduction/Creating-a-scene)
+[Vite](https://vite.dev/)
 
 ## Installation 
 ### A.
-The website is hosted live ![here](https://woooocoder.github.io/CS460student/diabetes/)
+The website is hosted live [here](https://woooocoder.github.io/CS460student/diabetes/)
 
 ### B.
 1. Clone the repo
@@ -24,10 +24,10 @@ The website is hosted live ![here](https://woooocoder.github.io/CS460student/dia
 ### Graph in 3D space
 
 ## The Machine Learning Code
-![Github Repo](https://github.com/woooocoder/machine-learning/blob/main/diabetes-ml/diabetes.ipynb)
+[Github Repo](https://github.com/woooocoder/machine-learning/blob/main/diabetes-ml/diabetes.ipynb)
 
 ## The Dataset
-![Kaggle](https://www.kaggle.com/datasets/uciml/pima-indians-diabetes-database)
+[Kaggle](https://www.kaggle.com/datasets/uciml/pima-indians-diabetes-database)
 
 ## Future Improvements
 1. UX: 
