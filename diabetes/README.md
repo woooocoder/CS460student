@@ -20,8 +20,20 @@
 
 
 ## Visuals
+
 ### Graph in 2D space
+![1](https://github.com/user-attachments/assets/96b2acf5-fc20-4eec-b4a0-ffcaeffa9c49)
+![2](https://github.com/user-attachments/assets/3757987e-c0e2-4423-9646-c9881f800cc4)
+
+
+
 ### Graph in 3D space
+![3](https://github.com/user-attachments/assets/0f4be105-d592-48e7-828a-1627cad36354)
+![4](https://github.com/user-attachments/assets/92a0c1fe-f45b-4b7e-9983-12aec28e7086)
+![5](https://github.com/user-attachments/assets/0d6560c8-1a21-47be-94b2-8d0b4dbc745c)
+
+
+
 
 ## The Machine Learning Code
 - [Github Repo](https://github.com/woooocoder/machine-learning/blob/main/diabetes-ml/diabetes.ipynb)
