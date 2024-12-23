@@ -2,7 +2,7 @@
 <script src="https://cdn.plot.ly/plotly-2.24.1.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/tweakpane@3.0.5/dist/tweakpane.min.js"></script>
 <script type="module">
-  import { toObject } from "./data.js";
+  import { toObject } from "./utils/data.js";
   import csv from "/diabetesImputed.csv?url&raw";
 
   const data = toObject(csv);
@@ -94,7 +94,7 @@
   // Initialize Tweakpane and add controls
   window.addEventListener("load", () => {
     const pane = new Tweakpane.Pane({
-      container: document.getElementById("tweakpane-container"),
+      container: document.getElementById("tweakpane-container-3d"),
     });
 
     const options = predictors.reduce((acc, p) => {

@@ -5,8 +5,8 @@
 <script src="https://cdn.plot.ly/plotly-2.24.1.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/tweakpane@3.0.5/dist/tweakpane.min.js"></script>
 <script type="module">
-  import { toObject } from "./data.js";
-  import csv from "/diabetesImputed.csv?url&raw";
+  import { toObject } from "./utils/data.js";
+  import csv from "./diabetesImputed.csv?url&raw";
 
   const data = toObject(csv);
   const predictors = [
@@ -86,7 +86,7 @@
 
   window.addEventListener("load", () => {
     const pane = new Tweakpane.Pane({
-      container: document.getElementById("tweakpane-container"),
+      container: document.getElementById("tweakpane-container-2d"),
     });
 
     const options = predictors.reduce((acc, p) => {

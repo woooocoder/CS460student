@@ -3,8 +3,8 @@
 <script src="https://cdn.jsdelivr.net/npm/tweakpane@3.0.5/dist/tweakpane.min.js"></script>
 <script type="module">
   import { Pane } from "tweakpane";
-  import { toObject } from "./data.js";
-  import csv from "/diabetesImputed.csv?url&raw";
+  import { toObject } from "./utils/data.js";
+  import csv from "./diabetesImputed.csv?url&raw";
 
   const data = toObject(csv);
   const predictors = [

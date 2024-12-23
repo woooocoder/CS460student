@@ -33,28 +33,36 @@
             Diabetes Prediction of Pima Indian Women
         </h1>    
 
-        <div>
-            <h2 class="font-bold text-xl mb-[1vh]">
-                Overview
-            </h2>
-
-            <p class="text-indent">
-                The Pima Indian tribe resides in both Arizona and Mexico. Within Arizona, there are two reservations with a total population of 20,000 people. 34.2% of men and 40.8% of women within the Pima community have type 2 diabetes. On a wider scale, 9.3% of the United States’ general population and 16% of the entire Native American population have type 2 diabetes. The Arizona Pima community has the highest rate of diabetes in the world! 
-                
-                <h3 class="font-semibold mt-[2vh] mb-[1vh]">Scientifically</h3>
-                 The presence of diabetes is described to be due to a genetic mutation which causes β-cell dysfunction, which results in obesity and insulin resistance. <a class="text-blue-300 hover:underline text-xs align-top">1</a> These two factors are strongly associated with type 2 diabetes. 
-                
-                <h3 class="font-semibold mt-[2vh] mb-[1vh]">Historically</h3> 
-                 The presence of diabetes can be due to the government’s negligence of the community during the nationwide financial/agricultural (drought) crisis through the 70s-80s. 
-                 <p class="my-[.25vh] font-medium">Here are some notable events:</p>
-                 <ul style="list-style-type: circle; margin-left: 5vw;">
-                    <li>The Soybean Embargo</li>
-                    <li>The Farm Credit and Debt Situation</li>
-                    <li>The Russian Grains Transaction</li>
-                 </ul> 
-                  These resulted in the emerging of agricultural monopolies, policy change, and the bankruptcy of smaller farms. Native American communities didn’t have representation throughout this era so the communities became food desserts. They depended on government issued food which lacked nutrition. 40% of their calories were from fat.<a class="text-blue-300 hover:underline text-xs align-top">2</a> 
-            </p>
-        </div>
+        <div class="max-w-4xl mx-auto p-6 rounded-lg shadow-md"> 
+          <h2 class="font-bold text-2xl mb-[1vh] text-blue-600">Overview</h2> 
+      
+          <p class="text-lg leading-relaxed">
+              The Pima Indian tribe resides in both Arizona and Mexico. Within Arizona, there are two reservations with a total population of 20,000 people. 34.2% of men and 40.8% of women within the Pima community have type 2 diabetes. On a wider scale, 9.3% of the United States’ general population and 16% of the entire Native American population have type 2 diabetes. The Arizona Pima community has the highest rate of diabetes in the world!
+          </p>
+       
+          <h3 class="font-semibold text-xl mt-[2vh] mb-[1vh] text-blue-600">Scientifically</h3>
+          <p class="text-lg leading-relaxed">
+              The presence of diabetes is described to be due to a genetic mutation which causes β-cell dysfunction, which results in obesity and insulin resistance. 
+              <a class="text-blue-300 hover:underline text-xs align-top">1</a> These two factors are strongly associated with type 2 diabetes.
+          </p>
+       
+          <h3 class="font-semibold text-xl mt-[2vh] mb-[1vh] text-blue-600">Historically</h3> 
+          <p class="text-lg leading-relaxed">
+              The presence of diabetes can be due to the government’s negligence of the community during the nationwide financial/agricultural (drought) crisis through the 70s-80s.
+          </p> 
+          <p class="my-[.25vh] font-medium text-lg">Here are some notable events:</p>
+          <ul class="list-disc ml-6 text-lg  space-y-2">
+              <li>The Soybean Embargo</li>
+              <li>The Farm Credit and Debt Situation</li>
+              <li>The Russian Grains Transaction</li>
+          </ul>
+       
+          <p class="text-lg leading-relaxed mt-4">
+              These resulted in the emergence of agricultural monopolies, policy changes, and the bankruptcy of smaller farms. Native American communities didn’t have representation throughout this era, so the communities became food deserts. They depended on government-issued food, which lacked nutrition. 40% of their calories were from fat. 
+              <a class="text-blue-300 hover:underline text-xs align-top">2</a>
+          </p>
+      </div>
+      
         
         <div class="w-full border-[0.5px] mx-[5vw] border-white opacity-75 hover:opacity-35 my-[10vh]"></div>
         <!-- <div class="text-xl font-light underline">
@@ -65,103 +73,110 @@
             <div></div>
         </div> -->
 
-        <div class="w-full h-full">
-            <h2 class="font-bold text-xl mb-[1vh]">Extract</h2>  
-            <button onclick="redirect('https://www.kaggle.com/datasets/uciml/pima-indians-diabetes-database')" class="font-semibold text-xl mb-[1vh] hover:underline text-blue-300">The Dataset</button>
-            <iframe src="hist.html" class="w-full h-[50vh]" scrolling="no"></iframe>
-            <p>
-                The data is collected for 768 women in which 280 (35%) have type 2 diabetes. Each entry consists of 8 predictors:
-                <ul style="list-style-type: circle; margin-left: 5vw;">
-                    <li>Pregnancies: The number of pregnancies a person has had [0-17]</li>
-                    <li>Glucose: The typical measurement is 70-105 mg/dL. Low glucose signals excessive insulin while high glucose signals insufficient insulin production. Both may be caused by insulin resistance. </li>
-                    <li>BloodPressure: Diastolic blood pressure measurement (while the heart is relaxed between beats). Typical rates are 60-80 mm*Hg. High blood pressure is a typical effect of type 2 diabetes</li>
-                    <li>SkinThickness: The skin thickness of the skin fold connecting the triceps and armpit. Typical values vary between age and body composition which may not be vividly captured through BMI.  </li>
-                    <li>Insulin: A typical insulin level is between 18-56 µU/mL. Higher levels signal insulin resistance and early-stage type 2 diabetes. Lower levels signal late-stage type 2 diabetes.</li>
-                    <li>BodyMassIndex: BMI = weight / height<a class="hover:underline text-xs align-top">2</a> (kg/m)</li>
-                    <li>
-                        DiabetesPedigreeFunction: Measurement of the relevance of genetics for the risk of diabetes in a person. It is based on the age, time of diagnosis and degree of relationship:
-                        <ul style="list-style-type: circle; margin-left: 5vw;">
-                            <li>
-                                1st degree: 50% of genetic similarity i.e. Parents, children, siblings    
-                            </li>
-                            <li>
-                                2nd degree: 25% of genetic similarity i.e. Grandparents, aunts/uncles, half siblings 
-                            </li>
-                            <li>etc.. for further degrees</li>
-                        </ul>
-                    </li>
-                    <li>Age: 21-81 years</li>
-                </ul>
+        <div class="max-w-4xl mx-auto p-6"> 
+          <h2 class="font-bold text-2xl mb-[2vh] text-blue-600">Extract</h2>
+          <button onclick="redirect('https://www.kaggle.com/datasets/uciml/pima-indians-diabetes-database')" class="font-semibold text-xl mb-[2vh] hover:underline text-blue-300">
+              The Dataset
+          </button>
+           
+          <iframe src="src/hist.html" class="w-full h-[50vh] mb-6 rounded-lg shadow-md" scrolling="no"></iframe>
+           
+          <p class="text-lg leading-relaxed">
+              The data is collected for 768 women in which 280 (35%) have type 2 diabetes. Each entry consists of 8 predictors:
+          </p>
+          
+          <ul class="list-disc ml-6 text-lg space-y-3">
+              <li><span class="font-semibold">Pregnancies:</span> The number of pregnancies a person has had [0-17]</li>
+              <li><span class="font-semibold">Glucose:</span> The typical measurement is 70-105 mg/dL. Low glucose signals excessive insulin, while high glucose signals insufficient insulin production. Both may be caused by insulin resistance.</li>
+              <li><span class="font-semibold">BloodPressure:</span> Diastolic blood pressure measurement (while the heart is relaxed between beats). Typical rates are 60-80 mmHg. High blood pressure is a typical effect of type 2 diabetes.</li>
+              <li><span class="font-semibold">SkinThickness:</span> The skin thickness of the skin fold connecting the triceps and armpit. Typical values vary based on age and body composition, which may not be vividly captured through BMI.</li>
+              <li><span class="font-semibold">Insulin:</span> A typical insulin level is between 18-56 µU/mL. Higher levels signal insulin resistance and early-stage type 2 diabetes. Lower levels signal late-stage type 2 diabetes.</li>
+              <li><span class="font-semibold">BodyMassIndex:</span> BMI = weight / height<sup>2</sup> (kg/m²)</li>
+              <li><span class="font-semibold">DiabetesPedigreeFunction:</span> Measurement of the relevance of genetics for the risk of diabetes in a person. It is based on age, time of diagnosis, and degree of relationship:
+                  <ul class="list-disc ml-8 mt-2 text-lg">
+                      <li><span class="font-semibold">1st degree:</span> 50% genetic similarity (i.e., parents, children, siblings)</li>
+                      <li><span class="font-semibold">2nd degree:</span> 25% genetic similarity (i.e., grandparents, aunts/uncles, half-siblings)</li>
+                      <li>etc. for further degrees</li>
+                  </ul>
+              </li>
+              <li><span class="font-semibold">Age:</span> 21-81 years</li>
+          </ul>
+      </div>
+  
+      <script>
+          function redirect(url) {
+              window.location.href = url;
+          }
+      </script>
 
-            </p>
-        </div>
+<div class="max-w-4xl mx-auto p-6"> 
+  <h2 class="font-bold text-2xl mb-[2vh] text-blue-600">Transform</h2>
+ 
+  <h3 class="font-semibold text-xl mt-[2vh] mb-[1vh] text-blue-600">1. Imputation</h3>
+  <p class="text-lg leading-relaxed">
+      There are various missing values in the dataset, and we must fill them before training a machine learning model. The method used in this instance is K-nearest neighbors imputation. This method is preferred because each predictor contains outliers and scales/ranges that vary.
+  </p>
+  <p class="text-lg leading-relaxed">
+      First, the predictors are scaled with the following formula:
+  </p>
+  <p class="font-semibold opacity-85 hover:opacity-50 text-center text-lg">
+      score = (x - μ) / σ
+  </p>
+  <p class="text-lg leading-relaxed">
+      Scaling the data ensures that all predictors have a mean of 0 and a standard deviation of 1, which is essential for measuring Euclidean distance.
+  </p>
+  
+  <p class="my-[.25vh] font-medium text-lg">KNNImputer performs the following:</p>
+  <ol class="list-decimal ml-6 text-lg space-y-2">
+      <li>Select a data point with a missing predictor</li>
+      <li>Find N closest nodes relative to the other non-missing predictors</li>
+      <li>Set the missing predictor to the mean of the N-nearest nodes</li>
+  </ol>
 
-        <div class="w-full border-[0.5px] mx-[5vw] border-white opacity-75 hover:opacity-35 my-[10vh]"></div>
+  <p class="text-lg leading-relaxed">
+      This is illustrated with the graph below. Click on a data point to observe KNN(4).
+  </p>
+  <iframe src="./src/knnImputation.html" class="w-full h-[50vh] mb-6 rounded-lg shadow-md" scrolling="no"></iframe>
+ 
+  <h3 class="font-semibold text-xl mt-[2vh] mb-[1vh] text-blue-600">2. Exploratory Data Analysis (EDA)</h3>
+ 
+  <h3 class="font-semibold text-xl mt-[2vh] mb-[1vh] text-blue-600">Correlation Matrix</h3>
+  <iframe src="./corr.html" class="w-full h-[50vh] mb-6 rounded-lg shadow-md" scrolling="no"></iframe>
+  <p class="text-lg leading-relaxed">
+      The correlation matrix illustrates the following linear relationships:
+  </p>
+  <ul class="list-disc ml-6 text-lg space-y-2">
+      <li>SkinThickness Vs BMI</li>
+      <li>Age Vs Pregnancies</li>
+      <li>Glucose Vs Outcome</li>
+  </ul>
+ 
+  <h3 class="font-semibold text-xl mt-[2vh] mb-[1vh] text-blue-600">2D Scatterplot</h3>
+  <iframe src="./src/scatter2d.html" class="w-full h-[50vh] mb-6 rounded-lg shadow-md" scrolling="no"></iframe>
+  <p class="text-lg  leading-relaxed">
+      The previously mentioned linear relationships are also verified by viewing them on a scatterplot. We can also observe several thresholds for predictors where the majority of diabetic people reside:
+  </p>
+  <ul class="list-disc ml-6 text-lg space-y-2">
+      <li>Glucose > 125</li>
+      <li>Age > 35</li>
+      <li>BMI > 30</li>
+      <li>SkinThickness > 20</li>
+      <li>Insulin > 200</li>
+      <li>BloodPressure > 80</li>
+      <li>Pregnancies > 4</li>
+  </ul>
+ 
+  <h3 class="font-semibold text-xl mt-[2vh] mb-[1vh] text-blue-600">3D Scatterplot</h3>
+  <iframe src="./src/scatter3d.html" class="w-full h-[50vh] mb-6 rounded-lg shadow-md" scrolling="no"></iframe> 
 
-        <div class="w-full h-full">
-            <h2 class="font-bold text-xl mb-[1vh]">Transform</h2>
-
-            <h3 class="font-semibold mt-[2vh] mb-[1vh]">1. Imputation</h3>
-            <p>
-                There are various missing values in the dataset and we must fill them before training a machine learning model. The method used in this instance is K-nearest neighbors imputation. This method is preferred because each predictor contains outliers and scales/ranges that vary.  
-                
-                <p>
-                    First, the predictors are scaled with the following formula: 
-                    <p class="font-semibold opacity-85 hover:opacity-50 text-center">score = (x - μ) / σ</p> 
-                     
-                    Scaling the data ensures that all predictors have a mean of 0 and a standard deviation of 1 which is essential for measuring euclidean distance.
-                </p>
-                
-                <p class="my-[.25vh] font-medium">KNNImputer performs the following:</p>
-                <ol style="list-style-type: decimal; margin-left: 5vw;">
-                    <li>Select a data point with a missing predictor</li>
-                    <li>Find N closest nodes relative to the other non-missing predictors</li>
-                    <li>Set the missing predictor to the mean of the N-nearest nodes</li>
-                </ol> 
-
-                This is illustrated with the graph below. Click on a data point to observe KNN(4).
-            </p>
-            <iframe src="knnImputation.html" class="w-full h-[50vh]" scrolling="no"></iframe>
-            
-
-            <h3 class="font-semibold mt-[2vh] mb-[1vh]">2. Exploratory Data Analysis (EDA)</h3>
-            <h3 class="font-semibold mt-[2vh] mb-[1vh]">Correlation Matrix</h3>
-            <iframe src="corr.html" class="w-full h-[50vh] mb-[1vh]" scrolling="no"></iframe>
-            <p>
-                The correlation matrix illustrates the following linear relationships:
-                <ul style="list-style-type: circle; margin-left: 5vw;">
-                    <li>SkinThickness Vs BMI</li>
-                    <li>Age Vs Pregnancies</li>
-                    <li>Glucose Vs Outcome</li>
-                </ul>
-            </p>
-
-            <h3 class="font-semibold mt-[2vh] mb-[1vh]">2D Scatterplot</h3>
-            <iframe src="scatter2d.html" class="w-full h-[50vh]" scrolling="no"></iframe>
-            <p>
-                The previously mentioned linear relationships are also verified by viewing them on a scatterplot. We can also observe several thresholds for predictors where the majority of diabetic people reside:
-
-                <ul style="list-style-type: circle; margin-left: 5vw;">
-                    <li>Glucose > 125</li>
-                    <li>Age > 35</li>
-                    <li>BMI > 30</li>
-                    <li>SkinThickness > 20</li>
-                    <li>Insulin > 200</li>
-                    <li>BloodPressure > 80</li>
-                    <li>Pregnancies > 4</li>
-                </ul>
-            </p>
-
-            <h3 class="font-semibold mt-[2vh] mb-[1vh]">3D Scatterplot</h3>
-            <iframe src="scatter3d.html" class="w-full h-[50vh]" scrolling="no"></iframe>
-
-            <h3 class="font-semibold mt-[2vh] mb-[1vh]">Feature Engineering</h3>
-            <p>
-                Given the observed relationships and medical diagnosis, we can create more predictors to increase the accuracy of our model. 
-                For example, a BMI over 30 is considered obese which increases risk of diabetes.
-                Insulin resistance is known to be the leading cause of diabetes, which is signaled by an Insulin concentration of over 200. You are at a significantly higher risk if are both obese and have high insulin resistance. We'll generate binary features for these individual thresholds and complementary combinations of them.  
-            </p>
-        </div>
+  <h3 class="font-semibold text-xl mt-[2vh] mb-[1vh] text-blue-600">Feature Engineering</h3>
+  <p class="text-lg leading-relaxed">
+      Given the observed relationships and medical diagnosis, we can create more predictors to increase the accuracy of our model. For example, a BMI over 30 is considered obese, which increases the risk of diabetes.
+  </p>
+  <p class="text-lg leading-relaxed">
+      Insulin resistance is known to be the leading cause of diabetes, which is signaled by an Insulin concentration of over 200. You are at a significantly higher risk if you are both obese and have high insulin resistance. We'll generate binary features for these individual thresholds and complementary combinations of them.
+  </p>
+</div>
 
         <div class="w-full border-[0.5px] mx-[5vw] border-white opacity-75 hover:opacity-35 my-[10vh]"></div>
 
@@ -171,11 +186,15 @@
                 Now that we have cleaned, imputed, and engineered our data, we're ready to run some machine learning models!
             </p>
 
-            <h2 class="font-semibold text-xl mt-[2vh] mb-0 underline">How does the performance of different predictive models compare?</h2>
+            <h2 class="font-medium text-xl mt-[2vh] mb-[2vh]">How does the performance of different predictive models compare?</h2>
             <h3 class="font-semibold my-[1vh]">Performance Analyis</h3>
 
-            <p>
-                The performance of a machine learning model is quantified by the 5 values:
+            <div class="mb-[4vh]">
+                <p class="md:hidden">
+                  The performance of a machine learning model is quantified by the 5 values:
+                </p>
+                <div class="space-y-[2vh] md:space-y-0 md:flex md:space-x-[1vw]">
+                  
                 <table class="table-auto border border-collapse w-[50%] text-left">
                     <thead>
                       <tr class="bg-white bg-opacity-10">
@@ -239,13 +258,17 @@
                       </tr>
                     </tbody>
                   </table>
+                  
+                </div>
 
-                We will run several models and cross validate them to generate these performance metrics. We will then tune hyperparameters and rerun the 3 top performing models. 
-            </p>
+                <p class="mt-[2vh]">
+                  We will run several models and cross validate them to generate these performance metrics. We will then tune hyperparameters and rerun the 3 top performing models. 
+                </p>
+            </div>
 
             <iframe src="performance.html" class="w-full h-[50vh]" scrolling="no"></iframe>
             
-            <p>
+            <p class="mt-[2vh]">
                 The best performing model is Random Forest Classification across the board! The biggest concern is false negatives in the case of predicting diabetes, so we should attempt to increase the recall. A recall of 0.71 means that the model fails to identify 29% of people who have diabetes. This may be addressable by modifying/removing some of our engineered features, we could also perform a gradient booster.
             </p>
         </div>
@@ -254,61 +277,91 @@
         
         <div class="w-full h-full">
             <!-- Confusion Matrices Dropdown -->
-            <h2>Scientifically, the presence of diabetes is described to be due to a genetic mutation which causes β-cell dysfunction, which results in obesity (BMI>30) and insulin resistance. How important are these predictors?</h2>
+            <h2 class="font-medium text-lg mb-[4vh]">Scientifically, the presence of diabetes is described to be due to a genetic mutation which causes β-cell dysfunction, which results in obesity (BMI>30) and insulin resistance. How important are these predictors?</h2>
             <h3 class="font-semibold my-[1vh]">Feature Importance</h3>
             <iframe src="feature_importance.html" class="w-full h-[50vh]" scrolling="no"></iframe>
+            <div class="max-w-4xl mx-auto p-6"> 
+              <div class="bg-white p-4 rounded-lg shadow-md mb-4">
+                  <h2 class="text-2xl font-semibold text-blue-600">Insulin: 32%</h2>
+                  <p class="text-gray-700 mt-2">
+                      The most critical predictor which aligns with the scientific understanding that β-cell dysfunction results in insulin resistance, the main reasoning for diabetes.
+                  </p>
+              </div>
+      
+              <div class="bg-white p-4 rounded-lg shadow-md">
+                  <h2 class="text-2xl font-semibold text-blue-600">BMI: 6%</h2>
+                  <p class="text-gray-700 mt-2">
+                      This predictor has a moderate impact in predicting diabetes. BMI is a well-known risk factor, but its impact may be less prominent because it is being captured in other features such as DiabetesPedigreeFunction and Glucose. Its importance may be further emphasized by engineering more/less features containing its relationship to other predictors.
+                  </p>
+              </div>
+          </div> 
+            <div class="bg-white p-4 rounded-lg shadow-md">
+              <h2 class="text-2xl font-semibold text-blue-600">Permutation Importance: 76%</h2>
+              <p class="text-gray-700 mt-2">
+                  There is a strong relationship between Insulin + BMI vs the Outcome. The model accuracy drops by 76% if we shuffle the values within these predictors! 
+              </p>
+          </div>
 
-            <h3 class="font-semibold my-[1vh]">Permutation Importance</h3> 75.97%
-
-            <h3 class="font-semibold my-[1vh]">Partial Dependence</h3> 75.97%
+          <div class="bg-white p-4 rounded-lg shadow-md my-[2vh]">
+            <h2 class="text-2xl font-semibold text-blue-600 mb-2">Partial Dependence</h2>
+        
             <div class="flex flex-row h-full w-full space-x-[1vw]">
-                <img src="/public/bmi-partial-dependence.png" class="w-1/3 xl:w-auto xl:mb-0 xl:mr-[1vw]" />
-                <img src="/public/insulin-partial-dependence.png" class="w-1/3 xl:w-auto" />
-                <img src="/public/pdp-2d.png" class="w-1/3 xl:w-auto" />
+              <img src="/bmi-partial-dependence.png" class="w-1/3 xl:w-auto xl:mb-0 rounded-lg xl:mr-[1vw]" />
+              <img src="/insulin-partial-dependence.png" class="w-1/3 xl:w-auto rounded-lg" />
+              <img src="/pdp-2d.png" class="w-1/3 xl:w-auto rounded-lg" />
             </div>
+          </div>
+
+          <p>
+            The graphs illustrate the thresholds of sensitivity of model predictions given values of Insulin and BMI. The probability of classifying someone as diabetic rapidly increases if Insulin exceeds 100 and/or BMI exceeds 30.
+          </p>
             
         </div>
 
-        <div class="w-full border-[0.5px] mx-[5vw] border-white opacity-75 hover:opacity-35 my-[10vh]"></div>
+        <div class="w-full border-[0.5px] mx-[5vw] border-white opacity-75 hover:opacity-35  mt-[8vh] mb-[6vh]"></div>
 
         <div class="w-full h-full">
-            <h2>Insulin is recorded in only half of the observations. Is there a correlation between the target value in the people who are tested vs those who are not tested?</h2>
-            <h3 class="font-semibold my-[1vh]">Insulin Analysis</h3> 
+            <h2 class="font-medium text-lg mb-[4vh]">Insulin is recorded in only half of the observations. Is there a correlation between the target value in the people who are tested vs those who are not tested?</h2>
+            <h3 class="font-semibold my-[1vh] text-xl">Insulin Analysis</h3> 
             <p>
                 Insulin is identidied as the most important feature. This feature raises concern because nearly 50% of the values were missing. Let's investigate...  
             </p>
             
-            <h4 class="font-semibold my-[1vh]">Distributions</h4>
-            <div class="flex flex-col lg:flex-row h-full w-full space-x-[1vw]">
-                <img src="/public/dist-imputed.png" class="w-1/2" />
-                <img src="/public/dist-recorded.png" class="w-1/2" />
-            </div>
-            
-            <h4 class="font-semibold my-[1vh]">Correlation Insulin vs Outcome</h4>
-            <p>0.34</p>
-            
-            <h4 class="font-semibold my-[1vh]">T-test & p-value</h4> 
-            <table class="table-auto border border-collapse w-[50%] text-left">
-                <thead>
-                    <tr class="bg-white bg-opacity-10">
-                      <th class="p-2 border border-white">Metric</th>
-                      <th class="p-2 border border-white">Value</th> 
-                    </tr>
+            <div class="max-w-4xl mx-auto p-6">
+         
+              <h4 class="font-semibold text-xl my-[1vh] text-blue-600">T-test & p-value</h4>
+              <table class="table-auto border border-collapse w-full text-left mb-6">
+                  <thead>
+                      <tr class="bg-gray-800">
+                          <th class="p-3 border border-blue-300">Metric</th>
+                          <th class="p-3 border border-blue-300">Value</th>
+                      </tr>
                   </thead>
-                <tbody>
-                    <tr>
-                        <td class="p-2 border border-white">T-statistic</td>
-                        <td class="p-2 border border-white">1.46</td>
-                    </tr>
-                    
-                    <tr>
-                        <td class="p-2 border border-white">P-value</td>
-                        <td class="p-2 border border-white">0.15</td>
-                    </tr>
-                </tbody>
-            </table>
-            <h4 class="font-semibold my-[1vh]">Model Performance</h4>
-            <table class="table-auto border border-collapse w-[50%] text-left">
+                  <tbody>
+                      <tr>
+                          <td class="p-3 border border-blue-300">T-statistic</td>
+                          <td class="p-3 border border-blue-300">1.46</td>
+                      </tr>
+                      <tr>
+                          <td class="p-3 border border-blue-300">P-value</td>
+                          <td class="p-3 border border-blue-300">0.15</td>
+                      </tr>
+                  </tbody>
+              </table> 
+              <h4 class="font-semibold text-xl my-[1vh] text-blue-600">Distributions</h4>
+              <div class="flex flex-col items-center lg:flex-row h-full w-full space-y-[1vh] lg:space-y-0 lg:space-x-[1vw] mb-6">
+                  <img src="/dist-imputed.png" class="w-1/2 rounded-lg shadow-md" alt="Imputed Distribution" />
+                  <img src="/dist-recorded.png" class="w-1/2 rounded-lg shadow-md" alt="Recorded Distribution" />
+              </div>
+       
+              <p>
+                The distribution of the Insulin values for a recorded sample vs an imputed sample is very similar. There are 374 missing insulin values vs 394 recorded values, which is approximately 50%. There are no outliers in the imputed data which will reduce variance when replacing missing values.  When combined, there is a p-value of 0.15, indicating there is no significant difference between the splits and the imputation will not introduce a bias when merged into the dataset. After observing the T-statistic of 1.5, we can be assured that the difference in the groups is not significant, nor should the feature be removed. .
+              </p>
+          </div>
+ 
+             
+            <h4 class="font-semibold my-[1vh] text-xl">Model Performance</h4>
+            <table class="table-auto border mb-[2vh] border-collapse w-[50%] text-left place-self-center">
                 <thead>
                   <tr class="bg-white bg-opacity-10">
                     <th class="p-2 border border-white">Metric</th>
@@ -340,8 +393,12 @@
                 </tbody>
               </table>
 
+              <p>
+                This question arose out of the curiosity that specific people may have been tested based on external factors such as their appearance (Skin Thickness, BMI, Age), which may swindle the prediction of diabetes. I speculated that some people may have been tested because they look healthy. The inverse may have also been true. This assumption may be captured through other predictors, but there is no clear evidence with respect to insulin, which is further proven through the following Logistic Regression model. We did not use Insulin in the model, instead we replaced it with an engineered binary feature titled Insulin_missing.
+              </p>
+
             <h4 class="font-semibold my-[1vh]">ROC Curve</h4>
-            <img src="/public/roc.png" />
+            <img src="/roc.png" class="rounded-lg w-1/2 place-self-center" />
         </div>
     </div>
 </body>
