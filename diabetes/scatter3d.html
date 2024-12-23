@@ -1,17 +1,23 @@
-<div id="scatter-plot-3d" style="width: 100%; height: 100vh;"></div>
+<div id="scatter-plot-3d" style="width: 100%; height: 100%; flex: auto; justify-self: center;"></div> 
 <script src="https://cdn.plot.ly/plotly-2.24.1.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/tweakpane@3.0.5/dist/tweakpane.min.js"></script>
 <script type="module">
-  import { Pane } from "tweakpane";
   import { toObject } from "./data.js";
   import csv from "/diabetesImputed.csv?url&raw";
 
   const data = toObject(csv);
   const predictors = [
-    "Insulin", "BMI", "Glucose", "DiabetesPedigreeFunction", 
-    "BloodPressure", "Age", "Pregnancies", "SkinThickness"
+    "Insulin",
+    "BMI",
+    "Glucose",
+    "DiabetesPedigreeFunction",
+    "BloodPressure",
+    "Age",
+    "Pregnancies",
+    "SkinThickness",
   ];
 
+  // Prepare data
   const node = data.map((item, id) => ({
     id: id,
     Insulin: parseFloat(item.Insulin) || 0,
@@ -23,9 +29,10 @@
     Pregnancies: parseFloat(item.Pregnancies) || -1,
     SkinThickness: parseFloat(item.SkinThickness) || 0,
     Outcome: item.Outcome || -1,
-    color: item.Outcome === "1.0" ? "#FF0000" : "#00FF00", 
+    color: item.Outcome === "1.0" ? "#FF0000" : "#00FF00", // Red for Outcome=1, Green otherwise
   }));
 
+  // Configuration for Tweakpane
   const config = {
     X: "Insulin",
     Y: "BMI",
@@ -33,13 +40,14 @@
     colorCodingEnabled: true,
   };
 
+  // Function to update the 3D scatter plot
   function updateChart() {
     const xValues = node.map((point) => point[config.X]);
     const yValues = node.map((point) => point[config.Y]);
     const zValues = node.map((point) => point[config.Z]);
     const colors = config.colorCodingEnabled
-      ? node.map((point) => point.color)  
-      : node.map(() => "#0000FF");  
+      ? node.map((point) => point.color)
+      : node.map(() => "#0000FF"); // Default to Blue when color coding is disabled
 
     const trace = {
       x: xValues,
@@ -57,24 +65,24 @@
 
     const layout = {
       scene: {
-        xaxis: { 
+        xaxis: {
           title: config.X,
-          tickfont: { color: 'white' },
+          tickfont: { color: "white" },
           gridcolor: "white",
           zerolinecolor: "white",
         },
-        yaxis: { 
+        yaxis: {
           title: config.Y,
-          tickfont: { color: 'white' },
+          tickfont: { color: "white" },
           gridcolor: "white",
           zerolinecolor: "white",
-         },
-        zaxis: { 
-          title: config.Z, 
-          tickfont: { color: 'white' },
+        },
+        zaxis: {
+          title: config.Z,
+          tickfont: { color: "white" },
           gridcolor: "white",
           zerolinecolor: "white",
-         },
+        },
       },
       paper_bgcolor: "rgb(15, 23, 42)",
       margin: { l: 0, r: 0, b: 0, t: 0 },
@@ -83,23 +91,29 @@
     Plotly.newPlot("scatter-plot-3d", [trace], layout);
   }
 
+  // Initialize Tweakpane and add controls
   window.addEventListener("load", () => {
-    const pane = new Pane();
+    const pane = new Tweakpane.Pane({
+      container: document.getElementById("tweakpane-container"),
+    });
 
     const options = predictors.reduce((acc, p) => {
       acc[p] = p;
       return acc;
     }, {});
 
-    pane.addBinding(config, "X", { options }).on("change", updateChart);
-    pane.addBinding(config, "Y", { options }).on("change", updateChart);
-    pane.addBinding(config, "Z", { options }).on("change", updateChart);
+    pane.addInput(config, "X", { options }).on("change", updateChart);
+    pane.addInput(config, "Y", { options }).on("change", updateChart);
+    pane.addInput(config, "Z", { options }).on("change", updateChart);
 
-    pane.addBinding(config, "colorCodingEnabled", {
-      label: "Color By Outcome",
-      view: "checkbox",
-    }).on("change", updateChart);
+    pane
+      .addInput(config, "colorCodingEnabled", {
+        label: "Color By Outcome",
+        view: "checkbox",
+      })
+      .on("change", updateChart);
 
+    // Initial chart rendering
     updateChart();
   });
 </script>

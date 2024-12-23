@@ -37,10 +37,10 @@
 - Implement a consistent theme, create reusable components
 - Make the graphs more interactive. Directly manipulate the data/models and visualize the changes. 
 
-# Bugs 
+## Bugs 
 1. Photos aren't always loading onto the page
 2. Some graphs disappear or don't render upon loading of the page
 3. Tweakpane isn't properly loading in every component
 
-# Author
-- Woodrow Reese
+## Author
+### Woodrow Reese

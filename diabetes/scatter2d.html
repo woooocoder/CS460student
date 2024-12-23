@@ -1,8 +1,10 @@
-<div id="scatter-plot" style="width: 100%; height: 100%"></div>
+<div
+  id="scatter-plot"
+  style="width: 100%; height: 100%; flex: auto; justify-self: center"
+></div> 
 <script src="https://cdn.plot.ly/plotly-2.24.1.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/tweakpane@3.0.5/dist/tweakpane.min.js"></script>
 <script type="module">
-  import { Pane } from "tweakpane";
   import { toObject } from "./data.js";
   import csv from "/diabetesImputed.csv?url&raw";
 
@@ -17,7 +19,6 @@
     "Pregnancies",
     "SkinThickness",
   ];
-
   const node = data.map((item, id) => ({
     id: id,
     Insulin: parseFloat(item.Insulin) || 0,
@@ -84,8 +85,8 @@
   }
 
   window.addEventListener("load", () => {
-    const pane = new Pane({
-      container: document.getElementById("gui-container"),
+    const pane = new Tweakpane.Pane({
+      container: document.getElementById("tweakpane-container"),
     });
 
     const options = predictors.reduce((acc, p) => {
@@ -93,12 +94,11 @@
       return acc;
     }, {});
 
-    pane.addBinding(config, "X", { options }).on("change", updateChart);
-
-    pane.addBinding(config, "Y", { options }).on("change", updateChart);
+    pane.addInput(config, "X", { options }).on("change", updateChart);
+    pane.addInput(config, "Y", { options }).on("change", updateChart);
 
     pane
-      .addBinding(config, "enableColorByOutcome", {
+      .addInput(config, "enableColorByOutcome", {
         view: "checkbox",
         label: "Color by Outcome",
       })
