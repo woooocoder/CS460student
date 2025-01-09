@@ -15,7 +15,7 @@
 ### B.
 1. Clone the repo
 2. Go inside of the repo directory
-3. Run 'npm install'
+3. Run 'npm i'
 3. Run 'npm run dev'
 
 
@@ -50,9 +50,9 @@
 - Make the graphs more interactive. Directly manipulate the data/models and visualize the changes. 
 
 ## Bugs 
-1. Photos aren't always loading onto the page
-2. Some graphs disappear or don't render upon loading of the page
-3. Tweakpane isn't properly loading in every component
+1. Some graphs disappear or don't render upon loading of the page
+2. Tweakpane isn't properly loading in every component
+3. Photos aren't always loading onto the page - Resolved by hosting images on cloudinary.
 
 ## Author
 ### Woodrow Reese
